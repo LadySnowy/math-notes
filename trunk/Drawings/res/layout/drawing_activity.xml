@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.almondmendoza.drawings.DrawingSurface
+        android:id="@+id/drawingSurface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/undoBtn"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="U" />
+
+        <Button
+            android:id="@+id/redoBtn"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="R" />
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="S" />
+
+        <Button
+            android:id="@+id/pathBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="P" />
+
+        <Button
+            android:id="@+id/circleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="C" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/colorBlueBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/rectangle" />
+
+    <ImageButton
+        android:id="@+id/triangleBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_alignTop="@+id/colorBlueBtn"
+        android:layout_toLeftOf="@+id/colorBlueBtn"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/triangle" />
+
+    <ImageButton
+        android:id="@+id/axesBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_toRightOf="@+id/colorBlueBtn"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/axes" />
+
+    <ImageButton
+        android:id="@+id/colorGreenBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_alignTop="@+id/axesBtn"
+        android:layout_toRightOf="@+id/axesBtn"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/curve" />
+
+    <ImageButton
+        android:id="@+id/colorRedBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_toLeftOf="@+id/triangleBtn"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/circle" />
+
+</RelativeLayout>
