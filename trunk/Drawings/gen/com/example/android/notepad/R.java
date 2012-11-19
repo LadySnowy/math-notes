@@ -22,9 +22,10 @@ public final class R {
         public static final int ic_menu_save=0x7f020008;
         public static final int icon=0x7f020009;
         public static final int live_folder_notes=0x7f02000a;
-        public static final int menu=0x7f02000b;
-        public static final int rectangle=0x7f02000c;
-        public static final int triangle=0x7f02000d;
+        public static final int logo=0x7f02000b;
+        public static final int menu=0x7f02000c;
+        public static final int rectangle=0x7f02000d;
+        public static final int triangle=0x7f02000e;
     }
     public static final class id {
         public static final int axesBtn=0x7f06000a;

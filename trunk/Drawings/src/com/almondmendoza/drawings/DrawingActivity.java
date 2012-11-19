@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -98,6 +99,10 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
 
         redoBtn.setEnabled(false);
         undoBtn.setEnabled(false);
+        
+        //multi touch stuff
+        Bitmap itemBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap();
+        drawingSurface.setPinchWidget(itemBitmap);
     }
 
     private void setCurrentPaint(){
