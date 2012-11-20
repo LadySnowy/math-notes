@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +25,11 @@ import android.widget.Button;
 
 import com.example.android.notepad.NoteEditor;
 import com.example.android.notepad.R;
+import com.twodwarfs.multitouchcontroller.MultiTouchController;
+import com.twodwarfs.multitouchcontroller.PinchWidget;
+import com.twodwarfs.multitouchcontroller.MultiTouchController.MultiTouchObjectCanvas;
+import com.twodwarfs.multitouchcontroller.MultiTouchController.PointInfo;
+import com.twodwarfs.multitouchcontroller.MultiTouchController.PositionAndScale;
 import com.almondmendoza.drawings.brush.Brush;
 import com.almondmendoza.drawings.brush.CircleBrush;
 import com.almondmendoza.drawings.brush.PenBrush;
@@ -38,19 +45,65 @@ import java.io.FileOutputStream;
  * Time: 2:14 AM
  * Link: http://www.tutorialforandroid.com/
  */
-public class DrawingActivity extends Activity implements View.OnTouchListener{
+public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<PinchWidget>{
     private DrawingSurface drawingSurface;
     private ICanvasCommand currentDrawingPath;
     private Paint currentPaint;
     private Path path;
     private Button redoBtn;
     private Button undoBtn;
+    private Boolean isPenMode = true;
+    private Boolean isMultitouchmode = false;
 
     private Brush currentBrush;
 
     private File APP_FILE_PATH = new File("/sdcard/TutorialForAndroidDrawings");
 
-    
+    private MultiTouchController<PinchWidget> mMultiTouchController = new MultiTouchController<PinchWidget>(this);
+	
+	public void setPinchWidget(Bitmap bitmap) {
+		drawingSurface.mPinchWidget = new PinchWidget(bitmap);
+		drawingSurface.mPinchWidget.init(drawingSurface.mContext.getResources());
+	}
+
+	
+	
+
+	@Override
+	public boolean onTouchEvent(MotionEvent motionEvent) {
+		if(isPenMode)
+		{
+		 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+	        	path = new Path();
+	            currentDrawingPath = new DrawingPath(path,currentPaint);
+	  
+	            currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY());
+
+
+	        }else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
+	            currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY() );
+
+	        }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+	            currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY() );
+	            
+
+	            drawingSurface.addDrawingPath(currentDrawingPath);
+	            drawingSurface.isDrawing = true;
+	            undoBtn.setEnabled(true);
+	            redoBtn.setEnabled(false);
+	        }
+	        
+	        return true;
+		}
+		else if (isMultitouchmode)
+		return mMultiTouchController.onTouchEvent(motionEvent);
+		
+		return true;
+	}
+
+
+
+	
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,7 +145,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
         currentBrush = new PenBrush();
         
         drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
-        drawingSurface.setOnTouchListener(this);
+       // drawingSurface.setOnTouchListener(this);
 
         redoBtn = (Button) findViewById(R.id.redoBtn);
         undoBtn = (Button) findViewById(R.id.undoBtn);
@@ -102,13 +155,13 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
         
         //multi touch stuff
         Bitmap itemBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap();
-        drawingSurface.setPinchWidget(itemBitmap);
+        setPinchWidget(itemBitmap);
     }
 
     private void setCurrentPaint(){
         currentPaint = new Paint();
         currentPaint.setDither(true);
-        currentPaint.setColor(0xFFFFFF00);
+        currentPaint.setColor(Color.BLACK);
         currentPaint.setStyle(Paint.Style.STROKE);
         currentPaint.setStrokeJoin(Paint.Join.ROUND);
         currentPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -119,7 +172,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
 
 
 
-    public boolean onTouch(View view, MotionEvent motionEvent) {
+  /*  public boolean onTouch(View view, MotionEvent motionEvent) {
         if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
         	path = new Path();
             currentDrawingPath = new DrawingPath(path,currentPaint);
@@ -139,9 +192,9 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
             undoBtn.setEnabled(true);
             redoBtn.setEnabled(false);
         }
-
+        
         return true;
-    }
+    }*/
 
 
     public void onClick(View view){
@@ -149,7 +202,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
             case R.id.colorRedBtn:
                 currentPaint = new Paint();
                 currentPaint.setDither(true);
-                currentPaint.setColor(0xFFFF0000);
+                currentPaint.setColor(Color.BLACK);
                 currentPaint.setStyle(Paint.Style.STROKE);
                 currentPaint.setStrokeJoin(Paint.Join.ROUND);
                 currentPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -160,7 +213,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
             case R.id.colorBlueBtn:
                 currentPaint = new Paint();
                 currentPaint.setDither(true);
-                currentPaint.setColor(0xFF00FF00);
+                currentPaint.setColor(Color.BLACK);
                 currentPaint.setStyle(Paint.Style.STROKE);
                 currentPaint.setStrokeJoin(Paint.Join.ROUND);
                 currentPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -174,7 +227,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
                 currentPaint.setStrokeCap(Paint.Cap.ROUND);
                 currentPaint.setStrokeWidth(3.0f);
                 currentPaint.setAntiAlias(true);
-                currentPaint.setColor(0xFF00FF00);
+                currentPaint.setColor(Color.BLACK);
                 drawingSurface.addDrawingPath(new DrawingCurve(currentPaint));
                 drawingSurface.isDrawing = true;
                 /*currentPaint.setDither(true);
@@ -190,7 +243,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
                  currentPaint.setStrokeCap(Paint.Cap.ROUND);
                  currentPaint.setStrokeWidth(3.0f);
                  currentPaint.setAntiAlias(true);
-                 currentPaint.setColor(0xFF00FF00);
+                 currentPaint.setColor(Color.BLACK);
                  drawingSurface.addDrawingPath(new DrawAxes(currentPaint));
                  drawingSurface.isDrawing = true;
                  break;
@@ -200,7 +253,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
                 currentPaint.setStrokeCap(Paint.Cap.ROUND);
                 currentPaint.setStrokeWidth(3.0f);
                 currentPaint.setAntiAlias(true);
-                currentPaint.setColor(0xFF00FF00);
+                currentPaint.setColor(Color.BLACK);
                 drawingSurface.addDrawingPath(new DrawTriangle(currentPaint));
                 drawingSurface.isDrawing = true;
                 break;
@@ -239,10 +292,14 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
                new ExportBitmapToFile(this,saveHandler, drawingSurface.getBitmap()).execute();
             break;
             case R.id.circleBtn:
-                currentBrush = new CircleBrush();
+            	isMultitouchmode = true;
+            	isPenMode = false;
+                //currentBrush = new CircleBrush();
             break;
             case R.id.pathBtn:
-                currentBrush = new PenBrush();
+            	isPenMode = true;
+            	isMultitouchmode = false;
+                //currentBrush = new PenBrush();
             break;
         }
     }
@@ -287,4 +344,51 @@ public class DrawingActivity extends Activity implements View.OnTouchListener{
             }
         }
     }
+
+
+	@Override
+	public PinchWidget getDraggableObjectAtPoint(PointInfo pt) {
+		float x = pt.getX(), y = pt.getY();
+
+		if (drawingSurface.mPinchWidget.containsPoint(x, y)) {
+			return drawingSurface.mPinchWidget;
+		}
+
+		return null;
+	}
+
+
+
+
+	@Override
+	public void getPositionAndScale(PinchWidget obj,
+			PositionAndScale objPosAndScaleOut) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public boolean setPositionAndScale(PinchWidget pinchWidget, PositionAndScale newImgPosAndScale, PointInfo touchPoint) {
+		boolean ok = pinchWidget.setPos(newImgPosAndScale, drawingSurface.mUIMode, drawingSurface.UI_MODE_ANISOTROPIC_SCALE, touchPoint.isMultiTouch());
+		if(ok) {
+			drawingSurface.invalidate();
+		}
+
+		return ok;
+	}
+
+
+
+
+	@Override
+	public void selectObject(PinchWidget pinchWidget, PointInfo touchPoint) {
+		if(touchPoint.isDown()) {
+			drawingSurface.mPinchWidget = pinchWidget;
+		}
+
+		drawingSurface.invalidate();
+	}
 }

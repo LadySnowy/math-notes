@@ -31,7 +31,7 @@ import com.twodwarfs.multitouchcontroller.PinchWidget;
  * Time: 2:15 AM
  * Link: http://www.tutorialforandroid.com/
  */
-public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback, MultiTouchObjectCanvas<PinchWidget> {
+public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback{
     private Boolean _run;
     protected DrawThread thread;
     private Bitmap mBitmap;
@@ -39,6 +39,16 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
     public boolean isDrawCircle = false;
 
     private CommandManager commandManager;
+    public static final int UI_MODE_ROTATE = 1;
+ 	public static final int UI_MODE_ANISOTROPIC_SCALE = 2;
+ 	public int mUIMode = UI_MODE_ROTATE;
+
+ 	
+
+ 	public int mWidth, mHeight;
+
+ 	public PinchWidget mPinchWidget;
+ 	public Context mContext;
 
 	public DrawingSurface(Context context) {
 		super(context);
@@ -161,25 +171,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
     }
     
     //multi touch stuff
-    
-	private static final int UI_MODE_ROTATE = 1;
-	private static final int UI_MODE_ANISOTROPIC_SCALE = 2;
-	private int mUIMode = UI_MODE_ROTATE;
-
-	private MultiTouchController<PinchWidget> mMultiTouchController = new MultiTouchController<PinchWidget>(this);
-
-	private int mWidth, mHeight;
-
-	private PinchWidget mPinchWidget;
-	private Context mContext;
-	
-	public void setPinchWidget(Bitmap bitmap) {
-		mPinchWidget = new PinchWidget(bitmap);
-		mPinchWidget.init(mContext.getResources());
-	}
-
-	
-	@Override
+    @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		mWidth = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
 		mHeight = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
@@ -193,50 +185,10 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 		//canvas.drawColor(Color.WHITE);
 		mPinchWidget.draw(canvas);
 	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
-		return mMultiTouchController.onTouchEvent(ev);
-	}
-
+    
 	
-	public PinchWidget getDraggableObjectAtPoint(PointInfo pt) {
-		float x = pt.getX(), y = pt.getY();
-
-		if (mPinchWidget.containsPoint(x, y)) {
-			return mPinchWidget;
-		}
-
-		return null;
-	}
-
-	public void getPositionAndScale(PinchWidget pinchWidget, PositionAndScale objPosAndScaleOut) {
-		objPosAndScaleOut.set(pinchWidget.getCenterX(), pinchWidget.getCenterY(), 
-				(mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
-				(pinchWidget.getScaleFactor() + pinchWidget.getScaleFactor()) / 2, 
-				(mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, 
-				pinchWidget.getScaleFactor(), 
-				pinchWidget.getScaleFactor(),
-				(mUIMode & UI_MODE_ROTATE) != 0, 
-				pinchWidget.getAngle());
-	}
-
-	public boolean setPositionAndScale(PinchWidget pinchWidget, PositionAndScale newImgPosAndScale, PointInfo touchPoint) {
-		boolean ok = pinchWidget.setPos(newImgPosAndScale, mUIMode, UI_MODE_ANISOTROPIC_SCALE, touchPoint.isMultiTouch());
-		if(ok) {
-			invalidate();
-		}
-
-		return ok;
-	}
 	
-	public void selectObject(PinchWidget pinchWidget, PointInfo touchPoint) {
-		if(touchPoint.isDown()) {
-			mPinchWidget = pinchWidget;
-		}
-
-		invalidate();
-	}
+	
 	
 
 }
