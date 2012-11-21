@@ -18,21 +18,21 @@
         
         <Button
             android:id="@+id/undoBtn"
-            android:layout_width="38dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="U" />
 
         <Button
             android:id="@+id/redoBtn"
-            android:layout_width="38dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="R" />
 
         <Button
             android:id="@+id/saveBtn"
-            android:layout_width="38dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="S" />
@@ -54,8 +54,8 @@
 
     <ImageButton
         android:id="@+id/colorBlueBtn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"
@@ -64,8 +64,8 @@
 
     <ImageButton
         android:id="@+id/triangleBtn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/colorBlueBtn"
         android:layout_toLeftOf="@+id/colorBlueBtn"
         android:onClick="onClick"
@@ -74,8 +74,8 @@
 
     <ImageButton
         android:id="@+id/axesBtn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout1"
         android:layout_toRightOf="@+id/colorBlueBtn"
         android:onClick="onClick"
@@ -84,8 +84,8 @@
 
     <ImageButton
         android:id="@+id/colorGreenBtn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/axesBtn"
         android:layout_toRightOf="@+id/axesBtn"
         android:onClick="onClick"
@@ -94,8 +94,8 @@
 
     <ImageButton
         android:id="@+id/colorRedBtn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout1"
         android:layout_toLeftOf="@+id/triangleBtn"
         android:onClick="onClick"

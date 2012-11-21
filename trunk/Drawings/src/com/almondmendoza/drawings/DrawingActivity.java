@@ -45,8 +45,8 @@ import java.io.FileOutputStream;
  * Time: 2:14 AM
  * Link: http://www.tutorialforandroid.com/
  */
-public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<PinchWidget>{
-    private DrawingSurface drawingSurface;
+public class DrawingActivity extends Activity {
+    public DrawingSurface drawingSurface;
     private ICanvasCommand currentDrawingPath;
     private Paint currentPaint;
     private Path path;
@@ -59,44 +59,67 @@ public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<
 
     private File APP_FILE_PATH = new File("/sdcard/TutorialForAndroidDrawings");
 
-    private MultiTouchController<PinchWidget> mMultiTouchController = new MultiTouchController<PinchWidget>(this);
-	
-	public void setPinchWidget(Bitmap bitmap) {
-		drawingSurface.mPinchWidget = new PinchWidget(bitmap);
-		drawingSurface.mPinchWidget.init(drawingSurface.mContext.getResources());
-	}
-
-	
-	
-
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
-		if(isPenMode)
-		{
-		 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-	        	path = new Path();
-	            currentDrawingPath = new DrawingPath(path,currentPaint);
-	  
-	            currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY());
+		if(isPenMode){
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				path = new Path();
+				currentDrawingPath = new DrawingPath(path, currentPaint);
 
+				currentBrush.mouseDown(path, motionEvent.getX(),
+						motionEvent.getY());
 
-	        }else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
-	            currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY() );
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+				currentBrush.mouseMove(path, motionEvent.getX(),
+						motionEvent.getY());
 
-	        }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-	            currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY() );
-	            
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+				currentBrush.mouseUp(path, motionEvent.getX(),
+						motionEvent.getY());
 
-	            drawingSurface.addDrawingPath(currentDrawingPath);
-	            drawingSurface.isDrawing = true;
-	            undoBtn.setEnabled(true);
-	            redoBtn.setEnabled(false);
-	        }
-	        
-	        return true;
+				drawingSurface.addDrawingPath(currentDrawingPath);
+				drawingSurface.isDrawing = true;
+				undoBtn.setEnabled(true);
+				redoBtn.setEnabled(false);
+			}
+			return true;
 		}
-		else if (isMultitouchmode)
-		return mMultiTouchController.onTouchEvent(motionEvent);
+		else if (isMultitouchmode){
+			
+			int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
+			if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+				x1 = (int)motionEvent.getX();
+				y1 = (int)motionEvent.getY();
+			} else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
+				/*
+				Canvas tempCanvas = new Canvas(drawingSurface.mBitmap);
+				Paint myPaint = new Paint();
+				myPaint.setColor(Color.rgb(0, 0, 0));
+				myPaint.setStrokeWidth(10);
+				tempCanvas.drawRect(x1, y1, x2, y2, myPaint);
+				*/
+			} else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+				x2 = (int)motionEvent.getX();
+				y2 = (int)motionEvent.getY();
+				
+				dx = x2 - x1;
+				dy = y2 - y1;
+				
+				Bitmap currSelect = Bitmap.createBitmap((Bitmap)DrawingSurface.mBitmap, x1, y1, dx, dy);
+				DrawingSurface.setPinchWidget(currSelect);
+				
+				
+				Canvas tempCanvas = new Canvas(drawingSurface.mBitmap);
+				Paint myPaint = new Paint();
+				myPaint.setColor(Color.argb(128, 255, 255, 255));
+				myPaint.setStrokeWidth(10);
+				tempCanvas.drawRect(x1, y1, dx, dy, myPaint);
+			}
+
+			
+			return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);
+		}
+		
 		
 		return true;
 	}
@@ -137,6 +160,7 @@ public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<
             return super.onOptionsItemSelected(item);
         }
     }
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawing_activity);
@@ -154,8 +178,8 @@ public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<
         undoBtn.setEnabled(false);
         
         //multi touch stuff
-        Bitmap itemBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap();
-        setPinchWidget(itemBitmap);
+        //Bitmap itemBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap();
+       // DrawingSurface.setPinchWidget(itemBitmap);
     }
 
     private void setCurrentPaint(){
@@ -346,49 +370,5 @@ public class DrawingActivity extends Activity implements MultiTouchObjectCanvas<
     }
 
 
-	@Override
-	public PinchWidget getDraggableObjectAtPoint(PointInfo pt) {
-		float x = pt.getX(), y = pt.getY();
 
-		if (drawingSurface.mPinchWidget.containsPoint(x, y)) {
-			return drawingSurface.mPinchWidget;
-		}
-
-		return null;
-	}
-
-
-
-
-	@Override
-	public void getPositionAndScale(PinchWidget obj,
-			PositionAndScale objPosAndScaleOut) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public boolean setPositionAndScale(PinchWidget pinchWidget, PositionAndScale newImgPosAndScale, PointInfo touchPoint) {
-		boolean ok = pinchWidget.setPos(newImgPosAndScale, drawingSurface.mUIMode, drawingSurface.UI_MODE_ANISOTROPIC_SCALE, touchPoint.isMultiTouch());
-		if(ok) {
-			drawingSurface.invalidate();
-		}
-
-		return ok;
-	}
-
-
-
-
-	@Override
-	public void selectObject(PinchWidget pinchWidget, PointInfo touchPoint) {
-		if(touchPoint.isDown()) {
-			drawingSurface.mPinchWidget = pinchWidget;
-		}
-
-		drawingSurface.invalidate();
-	}
 }

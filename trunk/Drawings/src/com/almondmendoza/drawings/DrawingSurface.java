@@ -31,10 +31,10 @@ import com.twodwarfs.multitouchcontroller.PinchWidget;
  * Time: 2:15 AM
  * Link: http://www.tutorialforandroid.com/
  */
-public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback{
+public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback, MultiTouchObjectCanvas<PinchWidget>{
     private Boolean _run;
     protected DrawThread thread;
-    private Bitmap mBitmap;
+    public static Bitmap mBitmap;
     public boolean isDrawing = true;
     public boolean isDrawCircle = false;
 
@@ -43,12 +43,12 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
  	public static final int UI_MODE_ANISOTROPIC_SCALE = 2;
  	public int mUIMode = UI_MODE_ROTATE;
 
- 	
+ 	public MultiTouchController<PinchWidget> mMultiTouchController = new MultiTouchController<PinchWidget>(this);
 
  	public int mWidth, mHeight;
 
- 	public PinchWidget mPinchWidget;
- 	public Context mContext;
+ 	public static PinchWidget mPinchWidget;
+ 	public static Context mContext;
 
 	public DrawingSurface(Context context) {
 		super(context);
@@ -171,6 +171,11 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
     }
     
     //multi touch stuff
+	public static void setPinchWidget(Bitmap bitmap) {
+		mPinchWidget = new PinchWidget(bitmap);
+		mPinchWidget.init(mContext.getResources());
+	}
+    
     @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		mWidth = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
@@ -183,12 +188,53 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 		super.onDraw(canvas);
 		
 		//canvas.drawColor(Color.WHITE);
-		mPinchWidget.draw(canvas);
+		if (mPinchWidget != null) {
+			mPinchWidget.draw(canvas);
+		}
 	}
     
+	/*
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		return mMultiTouchController.onTouchEvent(ev);
+	}*/
+
+	public PinchWidget getDraggableObjectAtPoint(PointInfo pt) {
+		float x = pt.getX(), y = pt.getY();
+
+		if (mPinchWidget.containsPoint(x, y)) {
+			return mPinchWidget;
+		}
+
+		return null;
+	}
+
+	public void getPositionAndScale(PinchWidget pinchWidget, PositionAndScale objPosAndScaleOut) {
+		objPosAndScaleOut.set(pinchWidget.getCenterX(), pinchWidget.getCenterY(), 
+				(mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
+				(pinchWidget.getScaleFactor() + pinchWidget.getScaleFactor()) / 2, 
+				(mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, 
+				pinchWidget.getScaleFactor(), 
+				pinchWidget.getScaleFactor(),
+				(mUIMode & UI_MODE_ROTATE) != 0, 
+				pinchWidget.getAngle());
+	}
+
+	public boolean setPositionAndScale(PinchWidget pinchWidget, PositionAndScale newImgPosAndScale, PointInfo touchPoint) {
+		boolean ok = pinchWidget.setPos(newImgPosAndScale, mUIMode, UI_MODE_ANISOTROPIC_SCALE, touchPoint.isMultiTouch());
+		if(ok) {
+			invalidate();
+		}
+
+		return ok;
+	}
 	
-	
-	
-	
+	public void selectObject(PinchWidget pinchWidget, PointInfo touchPoint) {
+		if(touchPoint.isDown()) {
+			mPinchWidget = pinchWidget;
+		}
+
+		invalidate();
+	}
 
 }
