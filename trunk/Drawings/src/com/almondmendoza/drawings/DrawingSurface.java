@@ -202,8 +202,10 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 	public PinchWidget getDraggableObjectAtPoint(PointInfo pt) {
 		float x = pt.getX(), y = pt.getY();
 
-		if (mPinchWidget.containsPoint(x, y)) {
-			return mPinchWidget;
+		if(mPinchWidget != null){
+			if (mPinchWidget.containsPoint(x, y)) {
+				return mPinchWidget;
+			}
 		}
 
 		return null;

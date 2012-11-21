@@ -105,8 +105,10 @@ public class DrawingActivity extends Activity {
 				dx = x2 - x1;
 				dy = y2 - y1;
 				
-				Bitmap currSelect = Bitmap.createBitmap((Bitmap)DrawingSurface.mBitmap, x1, y1, dx, dy);
-				DrawingSurface.setPinchWidget(currSelect);
+				if(dx > 0 && dy > 0){
+					Bitmap currSelect = Bitmap.createBitmap((Bitmap)DrawingSurface.mBitmap, x1, y1, dx, dy);
+					DrawingSurface.setPinchWidget(currSelect);
+				}
 				
 				
 				Canvas tempCanvas = new Canvas(drawingSurface.mBitmap);
