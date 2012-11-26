@@ -51,11 +51,12 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	private Button redoBtn;
 	private Button undoBtn;
 	private Boolean isPenMode = true;
-	private Boolean isMultitouchmode = false;
+	private Boolean isMultitouchMode = false;
+	private Boolean isSelectMode = false;
+
 	int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
 	private Brush currentBrush;
-	private Boolean isSelectMode = true;
-
+	
 	private File APP_FILE_PATH = new File(Environment.getExternalStorageDirectory().getPath() + "/savedImages");
 
 	// Global mutable variables
@@ -66,8 +67,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	private String mOriginalContent;
 
 	// This Activity can be started by more than one action. Each action is
-	// represented
-	// as a "state" constant
+	// represented as a "state" constant
 	private static final int STATE_EDIT = 0;
 	private static final int STATE_INSERT = 1;
 
@@ -94,16 +94,16 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	            currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
 
 	            path = new Path();
-				currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY());
 				Log.d("jaltade", "Down_X " + motionEvent.getX());
-				Log.d("jaltade", "Down_Y " + (motionEvent.getY() - 110));
+				Log.d("jaltade", "Down_Y " + (motionEvent.getY()));
 
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 				drawingSurface.isDrawing = true;
 				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
 				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
 				
-				currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY());
 
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
@@ -111,7 +111,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 
 				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
 
-				currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY());
 
 				drawingSurface.addDrawingPath(currentDrawingPath);
 				drawingSurface.isDrawing = true;
@@ -119,171 +119,138 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				redoBtn.setEnabled(false);
 			}
 			return true;
-		} else if (isMultitouchmode) {
+		} else if (isMultitouchMode) {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				if (isSelectMode) {
-					x1 = (int) motionEvent.getX();
-					y1 = (int) motionEvent.getY() - 110;
-					Log.d("jaltade", "here");
-				}
-
-				else {
-					x3 = (int) motionEvent.getX();
-					y3 = (int) motionEvent.getY();
-				}
+				x3 = (int) motionEvent.getX();
+				y3 = (int) motionEvent.getY();
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-				if (isSelectMode) {
-					x2 = (int) motionEvent.getX();
-					y2 = (int) motionEvent.getY() - 110;
-					Log.d("jaltade", "here2");
+				//Display display = getWindowManager().getDefaultDisplay();
+				//Point size = new Point();
+				//display.getSize(size);
+				//int width_scr = size.x;
+				//int height_scr = size.y;
 
-					dx = Math.abs(x2 - x1);
-					dy = Math.abs(y2 - y1);
+				int width_bmp = DrawingSurface.mBitmap.getWidth();
+				int height_bmp = DrawingSurface.mBitmap.getHeight();
 
-					DrawingSurface.mBitmap.getWidth();
-					DrawingSurface.mBitmap.getHeight();
+				Log.d("jaltade", "Will now drag");
+				// Log.d("jaltade","Bitmap width "+width_bmp);
+				// Log.d("jaltade","dx "+(dx)+"");
+				// Log.d("jaltade","Bitmap height "+height_bmp);
+				// Log.d("jaltade","dy "+(dy)+"");
+				// Log.d("jaltade","x1 "+x1);
+				// Log.d("jaltade","y1 "+y1);
+				// Log.d("jaltade","x2 "+x2);
+				// Log.d("jaltade","y2 "+y2);
 
-					isSelectMode = false;
+				Log.d("jaltade", "setting dx/dy");
+				if (y1 + dy > height_bmp) {
+					dy = height_bmp - y1 - 1;
+				}
+				if (y1 + dy < 0) {
+					dy = y1 - 1;
+				}
 
-					Log.d("jaltade", "has selected");
-					// Log.d("jaltade","1 Bitmap width "+width_bmp);
-					// Log.d("jaltade","1 dx "+(dx)+"");
-					// Log.d("jaltade","1 Bitmap height "+height_bmp);
-					// Log.d("jaltade","1 dy "+(dy)+"");
-					// Log.d("jaltade","1 x1 "+x1);
-					// Log.d("jaltade","1 y1 "+y1);
-					// Log.d("jaltade","1 x2 "+x2);
-					// Log.d("jaltade","1 y2 "+y2);
+				if (x1 + dx > width_bmp) {
+					dx = width_bmp - x1 - 1;
+				}
+				if (x1 + dx < 0) {
+					dx = x1 - 1;
+				}
 
-				} else if (!isSelectMode) {
+				Log.d("jaltade", "New dx " + (dx) + "");
+				Log.d("jaltade", "New dy " + (dy) + "");
 
-					//Display display = getWindowManager().getDefaultDisplay();
-					//Point size = new Point();
-					//display.getSize(size);
-					//int width_scr = size.x;
-					//int height_scr = size.y;
+				// <hack>
+				// if(dx == 0 ) dx = 1;
+				// if(dy == 0 ) dy = 1;
+				// </hack>
+				drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
 
-					int width_bmp = DrawingSurface.mBitmap.getWidth();
-					int height_bmp = DrawingSurface.mBitmap.getHeight();
+				Bitmap currSelect = null;
+				if(dx > 0 && dy > 0){
+					currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(), x1, y1, dx, dy);
+				}
 
-					Log.d("jaltade", "Will now drag");
-					// Log.d("jaltade","Bitmap width "+width_bmp);
-					// Log.d("jaltade","dx "+(dx)+"");
-					// Log.d("jaltade","Bitmap height "+height_bmp);
-					// Log.d("jaltade","dy "+(dy)+"");
-					// Log.d("jaltade","x1 "+x1);
-					// Log.d("jaltade","y1 "+y1);
-					// Log.d("jaltade","x2 "+x2);
-					// Log.d("jaltade","y2 "+y2);
-
-					Log.d("jaltade", "setting dx/dy");
-					if (y1 + dy > height_bmp) {
-						dy = height_bmp - y1 - 1;
-					}
-					if (y1 + dy < 0) {
-						dy = y1 - 1;
-					}
-
-					if (x1 + dx > width_bmp) {
-						dx = width_bmp - x1 - 1;
-					}
-					if (x1 + dx < 0) {
-						dx = x1 - 1;
-					}
-
-					Log.d("jaltade", "New dx " + (dx) + "");
-					Log.d("jaltade", "New dy " + (dy) + "");
-
-					// <hack>
-					// if(dx == 0 ) dx = 1;
-					// if(dy == 0 ) dy = 1;
-					// </hack>
-					drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
-
-					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(), x1, y1, dx, dy);
+				if(currSelect != null){
 					Log.d("jaltade", "width " + currSelect.getWidth());
 					Log.d("jaltade", "height " + currSelect.getHeight());
 					DrawingSurface.setPinchWidget(currSelect);
-
-					Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
-
-					Paint p = new Paint();
-					p.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
-					// Canvas c = new Canvas(bmOverlay);
-
-					Canvas c = DrawingSurface.mCanvas;
-					drawingSurface.invalidate(new Rect(0, 0, 1000, 1000));
-					// drawingSurface.draw(c);
-					// drawingSurface.getCommandManager().executeAll(c);
-					x4 = (int) motionEvent.getX();
-					y4 = (int) motionEvent.getY() - 110;
-					Log.d("jaltade", " new image at X: " + x4);
-					Log.d("jaltade", " new image at Y: " + y4);
-
-					// c.drawBitmap(currSelect,motionEvent.getX(),
-					// motionEvent.getY()-110, p);
-					c.drawBitmap(currSelect, x4, y4, p);
-					// c.drawBitmap(currSelect,100, 300, p);
-					// c.drawRect(x1, y1, x2, y2, p);
-					// drawingSurface.invalidate(new Rect(x1,y1,x2,y2));
-					// drawingSurface.invalidate(new
-					// Rect((int)motionEvent.getX(), (int)
-					// motionEvent.getY()-110, (int)motionEvent.getX()+dx,
-					// (int)motionEvent.getY()+dy-110));
-					// DrawingSurface.setPinchWidget(currSelect);
-					// drawingSurface.draw(c);
-					// drawingSurface.getCommandManager().executeAll(c);
-					// DrawingSurface.mBitmap = currSelect;
-					isSelectMode = true;
 				}
 
-				/*
-				 * Canvas tempCanvas = new Canvas(drawingSurface.mBitmap); Paint
-				 * myPaint = new Paint(); myPaint.setColor(Color.argb(128, 255,
-				 * 255, 255)); myPaint.setStrokeWidth(10);
-				 * tempCanvas.drawRect(x1, y1, dx, dy, myPaint);
-				 */
-			}
+				Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
 
-			return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);
+				Paint p = new Paint();
+				p.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
+				// Canvas c = new Canvas(bmOverlay);
+
+				Canvas c = DrawingSurface.mCanvas;
+				drawingSurface.invalidate(new Rect(0, 0, 1000, 1000));
+				// drawingSurface.draw(c);
+				// drawingSurface.getCommandManager().executeAll(c);
+				x4 = (int) motionEvent.getX();
+				y4 = (int) motionEvent.getY();
+				Log.d("jaltade", " new image at X: " + x4);
+				Log.d("jaltade", " new image at Y: " + y4);
+
+				// c.drawBitmap(currSelect,motionEvent.getX(),
+				// motionEvent.getY()-110, p);
+				if(currSelect != null){
+					c.drawBitmap(currSelect, x4, y4, p);
+				}
+				// c.drawBitmap(currSelect,100, 300, p);
+				// c.drawRect(x1, y1, x2, y2, p);
+				// drawingSurface.invalidate(new Rect(x1,y1,x2,y2));
+				// drawingSurface.invalidate(new
+				// Rect((int)motionEvent.getX(), (int)
+				// motionEvent.getY()-110, (int)motionEvent.getX()+dx,
+				// (int)motionEvent.getY()+dy-110));
+				// DrawingSurface.setPinchWidget(currSelect);
+				// drawingSurface.draw(c);
+				// drawingSurface.getCommandManager().executeAll(c);
+				// DrawingSurface.mBitmap = currSelect;			
+			} 
+
+			//return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);
+		} else if(isSelectMode){
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				x1 = (int) motionEvent.getX();
+				y1 = (int) motionEvent.getY();
+				Log.d("jaltade", "here");
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+				x2 = (int) motionEvent.getX();
+				y2 = (int) motionEvent.getY();
+				Log.d("jaltade", "here2");
+
+				dx = Math.abs(x2 - x1);
+				dy = Math.abs(y2 - y1);
+
+				DrawingSurface.mBitmap.getWidth();
+				DrawingSurface.mBitmap.getHeight();
+
+				Log.d("jaltade", "has selected");
+				// Log.d("jaltade","1 Bitmap width "+width_bmp);
+				// Log.d("jaltade","1 dx "+(dx)+"");
+				// Log.d("jaltade","1 Bitmap height "+height_bmp);
+				// Log.d("jaltade","1 dy "+(dy)+"");
+				// Log.d("jaltade","1 x1 "+x1);
+				// Log.d("jaltade","1 y1 "+y1);
+				// Log.d("jaltade","1 x2 "+x2);
+				// Log.d("jaltade","1 y2 "+y2);
+				
+				//trying to draw rectangle around selection
+				Canvas tempCanvas = new Canvas(drawingSurface.mBitmap); 
+				Paint myPaint = new Paint(); 
+				myPaint.setColor(Color.argb(128, 255,255, 255)); 
+				myPaint.setStrokeWidth(10);
+				tempCanvas.drawRect(x1, y1, dx, dy, myPaint);
+			}
 		}
 
 		return true;
 	}
 
 	public boolean onTouch(View view, MotionEvent motionEvent) {
-		/*
-		if (isPenMode) {
-			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				drawingSurface.isDrawing = true;
-
-				currentDrawingPath = new DrawingPath(path, currentPaint);
-				currentDrawingPath.paint = currentPaint;
-				currentDrawingPath.path = new Path();
-				currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
-				currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
-
-			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-				drawingSurface.isDrawing = true;
-				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
-				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
-
-			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-
-				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
-				drawingSurface.previewPath.path = new Path();
-				drawingSurface.addDrawingPath(currentDrawingPath);
-
-				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
-
-				undoBtn.setEnabled(true);
-				redoBtn.setEnabled(false);
-
-			}
-		}
-
-		return true;
-		*/
 		return false;
 	}
 
@@ -652,15 +619,20 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 
 			undoBtn.setEnabled(true);
 			break;
-		case R.id.selectBtn:
-			isMultitouchmode = true;
-			isPenMode = false;
-			// currentBrush = new CircleBrush();
-			break;
 		case R.id.pathBtn:
+			isMultitouchMode = false;
+			isSelectMode = false;
 			isPenMode = true;
-			isMultitouchmode = false;
-			// currentBrush = new PenBrush();
+			break;
+		case R.id.selectBtn:
+			isMultitouchMode = false;
+			isPenMode = false;
+			isSelectMode = true;
+			break;
+		case R.id.moveBtn:
+			isPenMode = false;
+			isSelectMode = false;
+			isMultitouchMode = true;
 			break;
 		}
 	}
