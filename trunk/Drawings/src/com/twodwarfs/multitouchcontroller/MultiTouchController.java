@@ -12,6 +12,10 @@ package com.twodwarfs.multitouchcontroller;
 
 import java.lang.reflect.Method;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -350,6 +354,7 @@ public class MultiTouchController<T> {
 				// First finger was released, stop dragging
 				mMode = MODE_NOTHING;
 				objectCanvas.selectObject((selectedObject = null), mCurrPt);
+				selectedObject = null;
 
 			} else if (mCurrPt.isMultiTouch()) {
 				// Point 1 was already down and point 2 was just placed down

@@ -28,11 +28,11 @@ public final class R {
         public static final int triangle=0x7f02000e;
     }
     public static final class id {
-        public static final int axesBtn=0x7f06000a;
+        public static final int axesBtn=0x7f06000c;
         public static final int circleBtn=0x7f060007;
         public static final int colorBlueBtn=0x7f060008;
         public static final int colorGreenBtn=0x7f06000b;
-        public static final int colorRedBtn=0x7f06000c;
+        public static final int colorRedBtn=0x7f060009;
         public static final int context_copy=0x7f060015;
         public static final int context_delete=0x7f060016;
         public static final int context_open=0x7f060014;
@@ -51,7 +51,7 @@ public final class R {
         public static final int saveBtn=0x7f060005;
         public static final int seekBar=0x7f060000;
         public static final int title=0x7f06000f;
-        public static final int triangleBtn=0x7f060009;
+        public static final int triangleBtn=0x7f06000a;
         public static final int undoBtn=0x7f060003;
     }
     public static final class layout {

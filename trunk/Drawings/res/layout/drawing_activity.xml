@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        
+
         <Button
             android:id="@+id/undoBtn"
             android:layout_width="wrap_content"
@@ -63,43 +63,43 @@
         android:src="@drawable/rectangle" />
 
     <ImageButton
+        android:id="@+id/colorRedBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/circle" />
+
+    <ImageButton
         android:id="@+id/triangleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/colorBlueBtn"
-        android:layout_toLeftOf="@+id/colorBlueBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/colorBlueBtn"
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:src="@drawable/triangle" />
 
     <ImageButton
-        android:id="@+id/axesBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_toRightOf="@+id/colorBlueBtn"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/axes" />
-
-    <ImageButton
         android:id="@+id/colorGreenBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/axesBtn"
-        android:layout_toRightOf="@+id/axesBtn"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout1"
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:src="@drawable/curve" />
 
     <ImageButton
-        android:id="@+id/colorRedBtn"
+        android:id="@+id/axesBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_toLeftOf="@+id/triangleBtn"
+        android:layout_alignTop="@+id/triangleBtn"
+        android:layout_toRightOf="@+id/colorRedBtn"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        android:src="@drawable/circle" />
+        android:src="@drawable/axes" />
 
 </RelativeLayout>

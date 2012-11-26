@@ -50,6 +50,9 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
  	public static PinchWidget mPinchWidget;
  	public static Context mContext;
 
+ 	
+ 	public static Canvas mCanvas;
+ 	
 	public DrawingSurface(Context context) {
 		super(context);
 	}
@@ -59,7 +62,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 
         getHolder().addCallback(this);
 
-        commandManager = new CommandManager();
+        setCommandManager(new CommandManager());
         thread = new DrawThread(getHolder());
         
         mContext = context;
@@ -91,7 +94,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                     try{
                         canvas = mSurfaceHolder.lockCanvas(null);
                         if(mBitmap == null){
-                            mBitmap =  Bitmap.createBitmap (1, 1, Bitmap.Config.ARGB_8888);
+                            mBitmap =  Bitmap.createBitmap (1000, 1110, Bitmap.Config.ARGB_8888);
                         }
                         final Canvas c = new Canvas (mBitmap);
 
@@ -99,10 +102,12 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
                         canvas.drawColor(0xffffffff);
                         
-                        commandManager.executeAll(c);
+                        getCommandManager().executeAll(c);
                         Log.d("hi", "maath");
 
                         canvas.drawBitmap (mBitmap, 0,  0,null);
+                        
+                        mCanvas = canvas;
                     } finally {
                         mSurfaceHolder.unlockCanvasAndPost(canvas);
                     }
@@ -116,27 +121,27 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 
 
     public void addDrawingPath (ICanvasCommand drawingPath){
-        commandManager.addCommand(drawingPath);
+        getCommandManager().addCommand(drawingPath);
     }
 
     public boolean hasMoreRedo(){
-        return commandManager.hasMoreRedo();
+        return getCommandManager().hasMoreRedo();
     }
 
     public void redo(){
         isDrawing = true;
-        commandManager.redo();
+        getCommandManager().redo();
 
 
     }
 
     public void undo(){
         isDrawing = true;
-        commandManager.undo();
+        getCommandManager().undo();
     }
 
     public boolean hasMoreUndo(){
-        return commandManager.hasMoreUndo();
+        return getCommandManager().hasMoreUndo();
     }
 
     public Bitmap getBitmap(){
@@ -237,6 +242,14 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 		}
 
 		invalidate();
+	}
+
+	public CommandManager getCommandManager() {
+		return commandManager;
+	}
+
+	public void setCommandManager(CommandManager commandManager) {
+		this.commandManager = commandManager;
 	}
 
 }

@@ -17,7 +17,7 @@ public class DrawingRectangle implements ICanvasCommand {
 		// TODO Auto-generated method stub
 		int width = canvas.getWidth()/2;
     	int height = canvas.getHeight()/2;
-    	canvas.drawRect(width/2,height/2,width/2+20,height/2+20,paint);
+    	canvas.drawRect(width/2,height/2,width/2+100,height/2-100,paint);
     	
 	}
 
