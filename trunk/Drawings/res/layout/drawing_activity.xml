@@ -16,40 +16,44 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/undoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="U" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/undo" />
 
-        <Button
+        <ImageButton
             android:id="@+id/redoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="R" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/redo" />
 
-        <Button
+        <ImageButton
             android:id="@+id/pathBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="P" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/pen" />
 
-        <Button
+        <ImageButton
             android:id="@+id/selectBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="S" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/select" />
 
-        <Button
+        <ImageButton
             android:id="@+id/moveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="M" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/move" />
 
         <ImageButton
             android:id="@+id/circleBtn"
