@@ -1,14 +1,15 @@
 package com.almondmendoza.drawings;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 
 
-public class DrawTriangle implements ICanvasCommand {
+public class DrawTriangle extends DrawingPath implements ICanvasCommand {
 
 	private Paint paint;
-	public DrawTriangle(Paint paint) {
-		super();
+	public DrawTriangle(Paint paint, Path path) {
+		super(path, paint);
 		this.paint = paint;
 	}
 

@@ -2,11 +2,12 @@ package com.almondmendoza.drawings;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 
-public class DrawAxes implements ICanvasCommand {
+public class DrawAxes extends DrawingPath implements ICanvasCommand {
 	
-	public DrawAxes(Paint paint) {
-		super();
+	public DrawAxes(Paint paint, Path path) {
+		super(path, paint);
 		this.paint = paint;
 	}
 

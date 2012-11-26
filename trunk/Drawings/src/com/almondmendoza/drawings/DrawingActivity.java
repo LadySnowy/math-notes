@@ -592,7 +592,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 			currentPaint.setStrokeJoin(Paint.Join.ROUND);
 			currentPaint.setStrokeCap(Paint.Cap.ROUND);
 			currentPaint.setStrokeWidth(3);
-			// drawingSurface.addDrawingPath(new DrawingCircle(currentPaint));
+			drawingSurface.addDrawingPath(new DrawingCircle(currentPaint, path));
 			drawingSurface.isDrawing = true;
 			break;
 		case R.id.rectangleBtn:
@@ -603,8 +603,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 			currentPaint.setStrokeJoin(Paint.Join.ROUND);
 			currentPaint.setStrokeCap(Paint.Cap.ROUND);
 			currentPaint.setStrokeWidth(3);
-			// drawingSurface.addDrawingPath(new
-			// DrawingRectangle(currentPaint));
+			drawingSurface.addDrawingPath(new DrawingRectangle(currentPaint, path));
 			drawingSurface.isDrawing = true;
 			break;
 		case R.id.curveBtn:
@@ -614,7 +613,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 			currentPaint.setStrokeWidth(3.0f);
 			currentPaint.setAntiAlias(true);
 			currentPaint.setColor(Color.BLACK);
-			// drawingSurface.addDrawingPath(new DrawingCurve(currentPaint));
+			drawingSurface.addDrawingPath(new DrawingCurve(currentPaint, path));
 			drawingSurface.isDrawing = true;
 			break;
 		case R.id.axesBtn:
@@ -624,7 +623,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 			currentPaint.setStrokeWidth(3.0f);
 			currentPaint.setAntiAlias(true);
 			currentPaint.setColor(Color.BLACK);
-			// drawingSurface.addDrawingPath(new DrawAxes(currentPaint));
+			drawingSurface.addDrawingPath(new DrawAxes(currentPaint, path));
 			drawingSurface.isDrawing = true;
 			break;
 		case R.id.triangleBtn:
@@ -634,7 +633,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 			currentPaint.setStrokeWidth(3.0f);
 			currentPaint.setAntiAlias(true);
 			currentPaint.setColor(Color.BLACK);
-			// drawingSurface.addDrawingPath(new DrawTriangle(currentPaint));
+			drawingSurface.addDrawingPath(new DrawTriangle(currentPaint, path));
 			drawingSurface.isDrawing = true;
 			break;
 		case R.id.undoBtn:

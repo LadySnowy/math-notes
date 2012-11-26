@@ -5,10 +5,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-public class DrawingRectangle implements ICanvasCommand {
+public class DrawingRectangle extends DrawingPath implements ICanvasCommand {
 	
-	public DrawingRectangle(Paint paint) {
-		super();
+	public DrawingRectangle(Paint paint, Path path) {
+		super(path, paint);
 		this.paint = paint;
 	}
 

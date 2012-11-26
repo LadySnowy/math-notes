@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class DrawingCircle implements ICanvasCommand {
+public class DrawingCircle extends DrawingPath implements ICanvasCommand {
 
-	public DrawingCircle(Paint paint) {
-		super();
+	public DrawingCircle(Paint paint, Path path) {
+		super(path, paint);
 		this.paint = paint;
 	}
 
