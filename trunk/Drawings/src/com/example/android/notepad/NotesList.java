@@ -272,8 +272,9 @@ public class NotesList extends ListActivity {
            * has to have action ACTION_INSERT. No category is set, so DEFAULT is assumed.
            * In effect, this starts the NoteEditor Activity in NotePad.
            */
-        	 Intent drawIntent = new Intent(this, DrawingActivity.class);
-             startActivity( drawIntent);
+        	Intent drawIntent = new Intent(this, DrawingActivity.class);
+        	startActivity(drawIntent);
+           //startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
            return true;
         case R.id.menu_paste:
           /*
