@@ -6,12 +6,20 @@ import java.io.FileOutputStream;
 
 import android.annotation.SuppressLint;
 =======
+<<<<<<< .mine
+import java.io.File;
+import java.io.FileOutputStream;
+
+import android.annotation.SuppressLint;
+=======
 import java.io.File;
 import java.io.FileOutputStream;
 
 >>>>>>> .r10
+>>>>>>> .r12
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +33,10 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Point;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -60,12 +72,29 @@ import com.example.android.notepad.R;
 
 <<<<<<< .mine
 =======
+<<<<<<< .mine
+=======
 
 >>>>>>> .r10
+>>>>>>> .r12
 /**
  * Created by IntelliJ IDEA. User: almondmendoza Date: 07/11/2010 Time: 2:14 AM
  * Link: http://www.tutorialforandroid.com/
  */
+<<<<<<< .mine
+public class DrawingActivity extends Activity implements View.OnTouchListener {
+	public DrawingSurface drawingSurface;
+	private DrawingPath currentDrawingPath;
+	private Paint currentPaint;
+	private Path path;
+	private Button redoBtn;
+	private Button undoBtn;
+	private Boolean isPenMode = true;
+	private Boolean isMultitouchmode = false;
+	int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
+	private Brush currentBrush;
+	private Boolean isSelectMode = true;
+=======
 public class DrawingActivity extends Activity implements View.OnTouchListener {
 	public DrawingSurface drawingSurface;
 	private DrawingPath currentDrawingPath;
@@ -81,13 +110,34 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
 	private File APP_FILE_PATH = new File("/sdcard/TutorialForAndroidDrawings");
     private Boolean isSelectMode = true;
+>>>>>>> .r12
 
+<<<<<<< .mine
+	private File APP_FILE_PATH = new File("/sdcard/TutorialForAndroidDrawings");
+=======
 	// Global mutable variables
 	private int mState;
 	private Uri mUri;
 	private Cursor mCursor;
 	private EditText mText;
 	private String mOriginalContent;
+>>>>>>> .r12
+
+<<<<<<< .mine
+	// Global mutable variables
+	private int mState;
+	private Uri mUri;
+	private Cursor mCursor;
+	private EditText mText;
+	private String mOriginalContent;
+=======
+<<<<<<< .mine
+	// This Activity can be started by more than one action. Each action is
+	// represented
+	// as a "state" constant
+	private static final int STATE_EDIT = 0;
+	private static final int STATE_INSERT = 1;
+>>>>>>> .r12
 
 <<<<<<< .mine
 	// This Activity can be started by more than one action. Each action is
@@ -111,11 +161,32 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 
 	@SuppressLint("NewApi")
 =======
+	// For logging and debugging purposes
+	private static final String TAG = "NoteEditor";
+
+	/*
+	 * Creates a projection that returns the note ID and the note contents.
+	 */
+	private static final String[] PROJECTION = new String[] { NotePad.Notes._ID, NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE };
+
+	// A label for the saved state of the activity
+	private static final String ORIGINAL_CONTENT = "origContent";
+
+	int x3 = 0, y3 = 0, x4 = 0, y4 = 0;
+
+	@SuppressLint("NewApi")
+=======
     
     int x3=0, y3=0, x4 = 0, y4=0;
 >>>>>>> .r10
+>>>>>>> .r12
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
+<<<<<<< .mine
+		// dx = 0;
+		// dy = 0;
+		if (isPenMode) {
+=======
 <<<<<<< .mine
 		// dx = 0;
 		// dy = 0;
@@ -124,6 +195,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 		//dx = 0;
 		//dy = 0;
 		if(isPenMode){
+>>>>>>> .r12
 >>>>>>> .r10
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 	            drawingSurface.isDrawing = true;
@@ -141,13 +213,28 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				Log.d("jaltade", "Down_Y " + (motionEvent.getY() - 110));
 
 =======
+<<<<<<< .mine
+	            path = new Path();
+				currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY() - 110);
+				Log.d("jaltade", "Down_X " + motionEvent.getX());
+				Log.d("jaltade", "Down_Y " + (motionEvent.getY() - 110));
+
+=======
 				currentBrush.mouseDown(path, motionEvent.getX(),
 						motionEvent.getY()-110);
 				Log.d("jaltade", "Down_X "+ motionEvent.getX());
 				Log.d("jaltade", "Down_Y "+ (motionEvent.getY()-110));
 				
 >>>>>>> .r10
+>>>>>>> .r12
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+<<<<<<< .mine
+				drawingSurface.isDrawing = true;
+				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
+				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
+				
+				currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY() - 110);
+=======
 <<<<<<< .mine
 				drawingSurface.isDrawing = true;
 				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
@@ -158,8 +245,13 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				currentBrush.mouseMove(path, motionEvent.getX(),
 						motionEvent.getY()-110);
 >>>>>>> .r10
+>>>>>>> .r12
 
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+<<<<<<< .mine
+				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
+				drawingSurface.previewPath.path = new Path();
+=======
 <<<<<<< .mine
 				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY());
 				drawingSurface.previewPath.path = new Path();
@@ -167,6 +259,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				currentBrush.mouseUp(path, motionEvent.getX(),
 						motionEvent.getY()-110);
 >>>>>>> .r10
+>>>>>>> .r12
 
 				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY());
 
@@ -178,6 +271,92 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				redoBtn.setEnabled(false);
 			}
 			return true;
+<<<<<<< .mine
+		} else if (isMultitouchmode) {
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if (isSelectMode) {
+					x1 = (int) motionEvent.getX();
+					y1 = (int) motionEvent.getY() - 110;
+					Log.d("jaltade", "here");
+				}
+
+				else {
+					x3 = (int) motionEvent.getX();
+					y3 = (int) motionEvent.getY();
+				}
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+				if (isSelectMode) {
+					x2 = (int) motionEvent.getX();
+					y2 = (int) motionEvent.getY() - 110;
+					Log.d("jaltade", "here2");
+
+					dx = Math.abs(x2 - x1);
+					dy = Math.abs(y2 - y1);
+
+					int width_bmp = DrawingSurface.mBitmap.getWidth();
+					int height_bmp = DrawingSurface.mBitmap.getHeight();
+
+					isSelectMode = false;
+
+					Log.d("jaltade", "has selected");
+					// Log.d("jaltade","1 Bitmap width "+width_bmp);
+					// Log.d("jaltade","1 dx "+(dx)+"");
+					// Log.d("jaltade","1 Bitmap height "+height_bmp);
+					// Log.d("jaltade","1 dy "+(dy)+"");
+					// Log.d("jaltade","1 x1 "+x1);
+					// Log.d("jaltade","1 y1 "+y1);
+					// Log.d("jaltade","1 x2 "+x2);
+					// Log.d("jaltade","1 y2 "+y2);
+
+				} else if (!isSelectMode) {
+
+					//Display display = getWindowManager().getDefaultDisplay();
+					//Point size = new Point();
+					//display.getSize(size);
+					//int width_scr = size.x;
+					//int height_scr = size.y;
+
+					int width_bmp = DrawingSurface.mBitmap.getWidth();
+					int height_bmp = DrawingSurface.mBitmap.getHeight();
+
+					Log.d("jaltade", "Will now drag");
+					// Log.d("jaltade","Bitmap width "+width_bmp);
+					// Log.d("jaltade","dx "+(dx)+"");
+					// Log.d("jaltade","Bitmap height "+height_bmp);
+					// Log.d("jaltade","dy "+(dy)+"");
+					// Log.d("jaltade","x1 "+x1);
+					// Log.d("jaltade","y1 "+y1);
+					// Log.d("jaltade","x2 "+x2);
+					// Log.d("jaltade","y2 "+y2);
+
+					Log.d("jaltade", "setting dx/dy");
+					if (y1 + dy > height_bmp) {
+						dy = height_bmp - y1 - 1;
+					}
+					if (y1 + dy < 0) {
+						dy = y1 - 1;
+					}
+
+					if (x1 + dx > width_bmp) {
+						dx = width_bmp - x1 - 1;
+					}
+					if (x1 + dx < 0) {
+						dx = x1 - 1;
+					}
+
+					Log.d("jaltade", "New dx " + (dx) + "");
+					Log.d("jaltade", "New dy " + (dy) + "");
+
+					// <hack>
+					// if(dx == 0 ) dx = 1;
+					// if(dy == 0 ) dy = 1;
+					// </hack>
+					drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
+
+					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(), x1, y1, dx, dy);
+					Log.d("jaltade", "width " + currSelect.getWidth());
+					Log.d("jaltade", "height " + currSelect.getHeight());
+=======
 <<<<<<< .mine
 		} else if (isMultitouchmode) {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -349,7 +528,41 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 					Log.d("jaltade", "width "+currSelect.getWidth());
 					Log.d("jaltade", "height "+currSelect.getHeight());
 >>>>>>> .r10
+>>>>>>> .r12
 					DrawingSurface.setPinchWidget(currSelect);
+<<<<<<< .mine
+
+					Bitmap bmOverlay = Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
+
+					Paint p = new Paint();
+					p.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
+					// Canvas c = new Canvas(bmOverlay);
+
+					Canvas c = DrawingSurface.mCanvas;
+					drawingSurface.invalidate(new Rect(0, 0, 1000, 1000));
+					// drawingSurface.draw(c);
+					// drawingSurface.getCommandManager().executeAll(c);
+					x4 = (int) motionEvent.getX();
+					y4 = (int) motionEvent.getY() - 110;
+					Log.d("jaltade", " new image at X: " + x4);
+					Log.d("jaltade", " new image at Y: " + y4);
+
+					// c.drawBitmap(currSelect,motionEvent.getX(),
+					// motionEvent.getY()-110, p);
+					c.drawBitmap(currSelect, x4, y4, p);
+					// c.drawBitmap(currSelect,100, 300, p);
+					// c.drawRect(x1, y1, x2, y2, p);
+					// drawingSurface.invalidate(new Rect(x1,y1,x2,y2));
+					// drawingSurface.invalidate(new
+					// Rect((int)motionEvent.getX(), (int)
+					// motionEvent.getY()-110, (int)motionEvent.getX()+dx,
+					// (int)motionEvent.getY()+dy-110));
+					// DrawingSurface.setPinchWidget(currSelect);
+					// drawingSurface.draw(c);
+					// drawingSurface.getCommandManager().executeAll(c);
+					// DrawingSurface.mBitmap = currSelect;
+					isSelectMode = true;
+=======
 <<<<<<< .mine
 
 					Bitmap bmOverlay = Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
@@ -411,7 +624,17 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				    //DrawingSurface.mBitmap = currSelect;
 				    isSelectMode = true;
 >>>>>>> .r10
+>>>>>>> .r12
 				}
+<<<<<<< .mine
+
+				/*
+				 * Canvas tempCanvas = new Canvas(drawingSurface.mBitmap); Paint
+				 * myPaint = new Paint(); myPaint.setColor(Color.argb(128, 255,
+				 * 255, 255)); myPaint.setStrokeWidth(10);
+				 * tempCanvas.drawRect(x1, y1, dx, dy, myPaint);
+				 */
+=======
 <<<<<<< .mine
 
 				/*
@@ -429,6 +652,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 				myPaint.setStrokeWidth(10);
 				tempCanvas.drawRect(x1, y1, dx, dy, myPaint);*/
 >>>>>>> .r10
+>>>>>>> .r12
 			}
 
 			return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);

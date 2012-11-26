@@ -72,9 +72,15 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/rectangleBtn"
 =======
+<<<<<<< .mine
+        android:layout_alignBottom="@+id/circleBtn"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rectangleBtn"
+=======
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout1"
 >>>>>>> .r10
+>>>>>>> .r12
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:src="@drawable/circle" />
@@ -83,10 +89,18 @@
 <<<<<<< .mine
         android:id="@+id/circleBtn"
 =======
+<<<<<<< .mine
+        android:id="@+id/circleBtn"
+=======
         android:id="@+id/triangleBtn"
 >>>>>>> .r10
+>>>>>>> .r12
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< .mine
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/triangleBtn"
+=======
 <<<<<<< .mine
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/triangleBtn"
@@ -94,13 +108,18 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/colorBlueBtn"
 >>>>>>> .r10
+>>>>>>> .r12
         android:onClick="onClick"
         android:scaleType="fitCenter"
 <<<<<<< .mine
         android:src="@drawable/circle" />
 =======
+<<<<<<< .mine
+        android:src="@drawable/circle" />
+=======
         android:src="@drawable/triangle" />
 >>>>>>> .r10
+>>>>>>> .r12
 
     <ImageButton
         android:id="@+id/curveBtn"
@@ -111,9 +130,15 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="113dp"
 =======
+<<<<<<< .mine
+        android:layout_alignLeft="@+id/rectangleBtn"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="113dp"
+=======
         android:layout_alignParentRight="true"
         android:layout_below="@+id/linearLayout1"
 >>>>>>> .r10
+>>>>>>> .r12
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:src="@drawable/curve" />
@@ -126,9 +151,14 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/curveBtn"
 =======
+<<<<<<< .mine
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/curveBtn"
+=======
         android:layout_alignTop="@+id/triangleBtn"
         android:layout_toRightOf="@+id/colorRedBtn"
 >>>>>>> .r10
+>>>>>>> .r12
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:src="@drawable/axes" />

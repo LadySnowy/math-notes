@@ -116,8 +116,14 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                         previewPath.draw(c);
                         
 =======
+<<<<<<< .mine
+                        commandManager.executeAll(c, previewDoneHandler);
+                        previewPath.draw(c);
+                        
+=======
                         getCommandManager().executeAll(c);
 >>>>>>> .r10
+>>>>>>> .r12
                         Log.d("hi", "maath");
 
                         canvas.drawBitmap (mBitmap, 0,  0,null);
