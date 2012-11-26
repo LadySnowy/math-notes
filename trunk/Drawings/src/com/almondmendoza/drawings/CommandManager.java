@@ -1,6 +1,7 @@
 package com.almondmendoza.drawings;
 
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -45,7 +46,20 @@ public class CommandManager {
         return length;
     }
 
-
+    public void executeAll( Canvas canvas, Handler doneHandler){
+        if( currentStack != null ){
+            synchronized( currentStack ) {
+                final Iterator i = currentStack.iterator();
+                
+                while ( i.hasNext() ){
+                    final DrawingPath drawingPath = (DrawingPath) i.next();
+                    drawingPath.draw( canvas );
+                    //doneHandler.sendEmptyMessage(1);
+                }
+            }
+        }
+    }
+    
     public void executeAll( Canvas canvas){
         if( currentStack != null ){
             synchronized( currentStack ) {
