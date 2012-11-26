@@ -29,7 +29,7 @@ public final class R {
     }
     public static final class id {
         public static final int axesBtn=0x7f06000c;
-        public static final int circleBtn=0x7f06000a;
+        public static final int circleBtn=0x7f060008;
         public static final int context_copy=0x7f060015;
         public static final int context_delete=0x7f060016;
         public static final int context_open=0x7f060014;
@@ -46,7 +46,7 @@ public final class R {
         public static final int note=0x7f06000e;
         public static final int ok=0x7f060010;
         public static final int pathBtn=0x7f060005;
-        public static final int rectangleBtn=0x7f060008;
+        public static final int rectangleBtn=0x7f06000a;
         public static final int redoBtn=0x7f060004;
         public static final int seekBar=0x7f060000;
         public static final int selectBtn=0x7f060006;

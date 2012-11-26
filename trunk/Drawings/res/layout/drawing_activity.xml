@@ -50,59 +50,48 @@
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="M" />
+
+        <ImageButton
+            android:id="@+id/circleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/circle" />
+
+        <ImageButton
+            android:id="@+id/triangleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/triangle" />
+
+        <ImageButton
+            android:id="@+id/rectangleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/rectangle" />
+
+        <ImageButton
+            android:id="@+id/curveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/curve" />
+
+        <ImageButton
+            android:id="@+id/axesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/axes" />
+
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/rectangleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="545dp"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/rectangle" />
-
-    <ImageButton
-        android:id="@+id/triangleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/circleBtn"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rectangleBtn"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/triangle" />
-
-    <ImageButton
-        android:id="@+id/circleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/triangleBtn"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/circle" />
-
-    <ImageButton
-        android:id="@+id/curveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/rectangleBtn"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="113dp"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/curve" />
-
-    <ImageButton
-        android:id="@+id/axesBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/curveBtn"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:src="@drawable/axes" />
 
 </RelativeLayout>
