@@ -3,7 +3,6 @@ package com.almondmendoza.drawings;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -17,17 +16,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,14 +36,8 @@ import android.widget.EditText;
 import com.example.android.notepad.NoteEditor;
 import com.example.android.notepad.NotePad;
 import com.example.android.notepad.R;
-import com.twodwarfs.multitouchcontroller.MultiTouchController;
-import com.twodwarfs.multitouchcontroller.PinchWidget;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.MultiTouchObjectCanvas;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.PointInfo;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.PositionAndScale;
 import com.almondmendoza.drawings.brush.Brush;
 import com.almondmendoza.drawings.brush.PenBrush;
-import com.example.android.notepad.R;
 
 /**
  * Created by IntelliJ IDEA. User: almondmendoza Date: 07/11/2010 Time: 2:14 AM
@@ -65,7 +56,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	private Brush currentBrush;
 	private Boolean isSelectMode = true;
 
-	private File APP_FILE_PATH = new File("/sdcard/TutorialForAndroidDrawings");
+	private File APP_FILE_PATH = new File(Environment.getExternalStorageDirectory().getPath() + "/savedImages");
 
 	// Global mutable variables
 	private int mState;
@@ -83,17 +74,11 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	// For logging and debugging purposes
 	private static final String TAG = "NoteEditor";
 
-	/*
-	 * Creates a projection that returns the note ID and the note contents.
-	 */
-	private static final String[] PROJECTION = new String[] { NotePad.Notes._ID, NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE };
-
 	// A label for the saved state of the activity
 	private static final String ORIGINAL_CONTENT = "origContent";
 
 	int x3 = 0, y3 = 0, x4 = 0, y4 = 0;
 
-	@SuppressLint("NewApi")
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
 		// dx = 0;
@@ -155,8 +140,8 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 					dx = Math.abs(x2 - x1);
 					dy = Math.abs(y2 - y1);
 
-					int width_bmp = DrawingSurface.mBitmap.getWidth();
-					int height_bmp = DrawingSurface.mBitmap.getHeight();
+					DrawingSurface.mBitmap.getWidth();
+					DrawingSurface.mBitmap.getHeight();
 
 					isSelectMode = false;
 
@@ -220,7 +205,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 					Log.d("jaltade", "height " + currSelect.getHeight());
 					DrawingSurface.setPinchWidget(currSelect);
 
-					Bitmap bmOverlay = Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
+					Bitmap.createBitmap(1000, 1110, Bitmap.Config.ARGB_8888);
 
 					Paint p = new Paint();
 					p.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
@@ -682,12 +667,10 @@ public class DrawingActivity extends Activity implements View.OnTouchListener {
 	}
 
 	private class ExportBitmapToFile extends AsyncTask<Intent, Void, Boolean> {
-		private Context mContext;
 		private Handler mHandler;
 		private Bitmap nBitmap;
 
 		public ExportBitmapToFile(Context context, Handler handler, Bitmap bitmap) {
-			mContext = context;
 			nBitmap = bitmap;
 			mHandler = handler;
 		}
