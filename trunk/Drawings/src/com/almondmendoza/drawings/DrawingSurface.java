@@ -6,12 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
     public static Bitmap mBitmap;
     public boolean isDrawing = true;
     public boolean isDrawCircle = false;
+    public DrawingPath previewPath;
 
     private CommandManager commandManager;
     public static final int UI_MODE_ROTATE = 1;
@@ -71,6 +73,13 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 	public DrawingSurface(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
+	
+	private Handler previewDoneHandler = new Handler(){
+	    @Override
+	    public void handleMessage(Message msg) {
+	      isDrawing = false;
+	    }
+	  };
 
     class DrawThread extends  Thread{
         private SurfaceHolder mSurfaceHolder;
@@ -102,7 +111,13 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
                         canvas.drawColor(0xffffffff);
                         
+<<<<<<< .mine
+                        commandManager.executeAll(c, previewDoneHandler);
+                        previewPath.draw(c);
+                        
+=======
                         getCommandManager().executeAll(c);
+>>>>>>> .r10
                         Log.d("hi", "maath");
 
                         canvas.drawBitmap (mBitmap, 0,  0,null);
