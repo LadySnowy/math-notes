@@ -28,25 +28,14 @@ public final class R {
         public static final int triangle=0x7f02000e;
     }
     public static final class id {
-<<<<<<< .mine
-        public static final int axesBtn=0x7f06000c;
-        public static final int circleBtn=0x7f06000a;
-=======
-<<<<<<< .mine
-        public static final int axesBtn=0x7f06000c;
-        public static final int circleBtn=0x7f06000a;
-=======
         public static final int axesBtn=0x7f06000c;
         public static final int circleBtn=0x7f060007;
         public static final int colorBlueBtn=0x7f060008;
         public static final int colorGreenBtn=0x7f06000b;
         public static final int colorRedBtn=0x7f060009;
->>>>>>> .r10
->>>>>>> .r12
         public static final int context_copy=0x7f060015;
         public static final int context_delete=0x7f060016;
         public static final int context_open=0x7f060014;
-        public static final int curveBtn=0x7f06000b;
         public static final int drawBtn=0x7f06000d;
         public static final int drawingSurface=0x7f060001;
         public static final int linearLayout1=0x7f060002;
@@ -55,14 +44,12 @@ public final class R {
         public static final int menu_paste=0x7f060018;
         public static final int menu_revert=0x7f060012;
         public static final int menu_save=0x7f060011;
-        public static final int moveBtn=0x7f060007;
         public static final int note=0x7f06000e;
         public static final int ok=0x7f060010;
-        public static final int pathBtn=0x7f060005;
-        public static final int rectangleBtn=0x7f060008;
+        public static final int pathBtn=0x7f060006;
         public static final int redoBtn=0x7f060004;
+        public static final int saveBtn=0x7f060005;
         public static final int seekBar=0x7f060000;
-        public static final int selectBtn=0x7f060006;
         public static final int title=0x7f06000f;
         public static final int triangleBtn=0x7f06000a;
         public static final int undoBtn=0x7f060003;
