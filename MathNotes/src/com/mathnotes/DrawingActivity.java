@@ -86,7 +86,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 				drawingSurface.isDrawing = true;
 
 				setCurrentPaint();
-				drawingSurface.previewPath.paint = getPreviewPaint(Color.BLACK);
+				drawingSurface.previewPath.paint = getPreviewPaint(Color.BLACK, 3);
 
 				currentDrawingPath = new DrawingPath(path, currentPaint);
 				currentDrawingPath.paint = currentPaint;
@@ -189,7 +189,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 				drawingSurface.isDrawing = true;
 
 				setEraserBrush();
-				drawingSurface.previewPath.paint = getPreviewPaint(Color.WHITE);
+				drawingSurface.previewPath.paint = getPreviewPaint(Color.WHITE, 6);
 
 				currentDrawingPath = new DrawingPath(path, currentPaint);
 				currentDrawingPath.paint = currentPaint;
@@ -347,7 +347,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		drawingSurface.setOnTouchListener(this);
 		drawingSurface.previewPath = new DrawingPath(path, currentPaint);
 		drawingSurface.previewPath.path = new Path();
-		drawingSurface.previewPath.paint = getPreviewPaint(0xFFC1C1C1);
+		drawingSurface.previewPath.paint = getPreviewPaint(0xFFC1C1C1, 3);
 
 		redoBtn = (ImageButton) findViewById(R.id.redoBtn);
 		undoBtn = (ImageButton) findViewById(R.id.undoBtn);
@@ -410,13 +410,13 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 	}
 
 	//sets up the brush for drawing the preview when drawing
-	private Paint getPreviewPaint(int color) {
+	private Paint getPreviewPaint(int color, int width) {
 		final Paint previewPaint = new Paint();
 		previewPaint.setColor(color);
 		previewPaint.setStyle(Paint.Style.STROKE);
 		previewPaint.setStrokeJoin(Paint.Join.ROUND);
 		previewPaint.setStrokeCap(Paint.Cap.ROUND);
-		previewPaint.setStrokeWidth(3);
+		previewPaint.setStrokeWidth(width);
 		return previewPaint;
 	}
 
@@ -439,7 +439,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		currentPaint.setStyle(Paint.Style.STROKE);
 		currentPaint.setStrokeJoin(Paint.Join.ROUND);
 		currentPaint.setStrokeCap(Paint.Cap.ROUND);
-		currentPaint.setStrokeWidth(3);
+		currentPaint.setStrokeWidth(6);
 	}
 
 	//handles all the onclick button events
@@ -531,6 +531,12 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			isMultitouchMode = true;
 			drawBoundary = false;
 			break;
+        case R.id.eraseBtn:
+            isPenMode = false;
+            isSelectMode = false;
+            isMultitouchMode = false;
+            isEraseMode = true;
+            break;
 		}
 	}
 
