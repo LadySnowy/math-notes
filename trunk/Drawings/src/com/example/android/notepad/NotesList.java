@@ -17,8 +17,8 @@
 package com.example.android.notepad;
 
 
-import com.drawings.DrawingActivity;
 import com.example.android.notepad.R;
+import com.mathnotes.DrawingActivity;
 
 
 

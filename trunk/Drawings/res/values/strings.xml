@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <string name="app_name">NotePad</string>
+     <string name="app_name">MathNote</string>
     <string name="live_folder_name">Notes</string>
 
     <string name="title_edit_title">Note title:</string>
     <string name="title_create">New note</string>
     <string name="title_edit">Edit: %1$s</string>
-    <string name="title_notes_list">Notes</string>
+    <string name="title_notes_list">MathNotes</string>
 
     <string name="menu_add">New note</string>
     <string name="menu_save">Save</string>
