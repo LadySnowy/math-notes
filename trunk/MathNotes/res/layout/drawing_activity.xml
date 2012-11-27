@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.mathnotes.DrawingSurface
+        android:id="@+id/drawingSurface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/undoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:src="@drawable/undo" />
+
+        <ImageButton
+            android:id="@+id/redoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/redo" />
+
+        <ImageButton
+            android:id="@+id/pathBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pen" />
+
+        <ImageButton
+            android:id="@+id/selectBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/select" />
+
+        <ImageButton
+            android:id="@+id/moveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/move" />
+        
+        <ImageButton
+            android:id="@+id/eraseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/erase" />
+
+        <ImageButton
+            android:id="@+id/circleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/circle" />
+
+        <ImageButton
+            android:id="@+id/triangleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/triangle" />
+
+        <ImageButton
+            android:id="@+id/rectangleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/rectangle" />
+
+        <ImageButton
+            android:id="@+id/curveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/curve" />
+
+        <ImageButton
+            android:id="@+id/axesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/axes" />
+
+    </LinearLayout>
+
+</RelativeLayout>
