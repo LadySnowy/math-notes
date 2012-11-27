@@ -58,6 +58,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 	private Boolean isPenMode = true;
 	private Boolean isMultitouchMode = false;
 	private Boolean isSelectMode = false;
+	private Boolean isEraseMode = false;
 
 	int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
 	private Brush currentBrush;
@@ -91,6 +92,9 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		if (isPenMode) {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 	            drawingSurface.isDrawing = true;
+	            
+	            setCurrentPaint();
+	            drawingSurface.previewPath.paint = getPreviewPaint(Color.BLACK);
 	        	
 	            currentDrawingPath = new DrawingPath(path, currentPaint);
 	            currentDrawingPath.paint = currentPaint;
@@ -179,6 +183,34 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 				}
 			}
 			return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);
+		} else if(isEraseMode){
+			if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+	            drawingSurface.isDrawing = true;
+
+	            setEraserBrush();
+	            drawingSurface.previewPath.paint = getPreviewPaint(Color.WHITE);
+	            
+	            currentDrawingPath = new DrawingPath(path, currentPaint);
+	            currentDrawingPath.paint = currentPaint;
+	            currentDrawingPath.path = new Path();
+	            currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
+	            currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+	            
+	        }else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
+	            drawingSurface.isDrawing = true;
+	            currentBrush.mouseMove( currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
+	            currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+
+	        }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+	            currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+	            drawingSurface.previewPath.path = new Path();
+	            drawingSurface.addDrawingPath(currentDrawingPath);
+
+	            currentBrush.mouseUp( currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
+
+	            undoBtn.setEnabled(true);
+	            redoBtn.setEnabled(false);
+	        }
 		}
 
 		return true;
@@ -359,16 +391,6 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		}
 	}
 
-	private Paint getPreviewPaint() {
-		final Paint previewPaint = new Paint();
-		previewPaint.setColor(0xFFC1C1C1);
-		previewPaint.setStyle(Paint.Style.STROKE);
-		previewPaint.setStrokeJoin(Paint.Join.ROUND);
-		previewPaint.setStrokeCap(Paint.Cap.ROUND);
-		previewPaint.setStrokeWidth(3);
-		return previewPaint;
-	}
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawing_activity);
@@ -380,7 +402,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		drawingSurface.setOnTouchListener(this);
 		drawingSurface.previewPath = new DrawingPath(path, currentPaint);
 		drawingSurface.previewPath.path = new Path();
-		drawingSurface.previewPath.paint = getPreviewPaint();
+		drawingSurface.previewPath.paint = getPreviewPaint(0xFFC1C1C1);
 
 		redoBtn = (ImageButton) findViewById(R.id.redoBtn);
 		undoBtn = (ImageButton) findViewById(R.id.undoBtn);
@@ -474,6 +496,16 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		}
 
 	}
+	
+	private Paint getPreviewPaint(int color) {
+		final Paint previewPaint = new Paint();
+		previewPaint.setColor(color);
+		previewPaint.setStyle(Paint.Style.STROKE);
+		previewPaint.setStrokeJoin(Paint.Join.ROUND);
+		previewPaint.setStrokeCap(Paint.Cap.ROUND);
+		previewPaint.setStrokeWidth(3);
+		return previewPaint;
+	}
 
 	private void setCurrentPaint() {
 		currentPaint = new Paint();
@@ -483,7 +515,16 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		currentPaint.setStrokeJoin(Paint.Join.ROUND);
 		currentPaint.setStrokeCap(Paint.Cap.ROUND);
 		currentPaint.setStrokeWidth(3);
-
+	}
+	
+	private void setEraserBrush() {
+		currentPaint = new Paint();
+		currentPaint.setDither(true);
+		currentPaint.setColor(Color.WHITE);
+		currentPaint.setStyle(Paint.Style.STROKE);
+		currentPaint.setStrokeJoin(Paint.Join.ROUND);
+		currentPaint.setStrokeCap(Paint.Cap.ROUND);
+		currentPaint.setStrokeWidth(3);
 	}
 
 	public void onClick(View view) {
@@ -560,17 +601,26 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			isMultitouchMode = false;
 			isSelectMode = false;
 			isPenMode = true;
+			isEraseMode = false;
 			break;
 		case R.id.selectBtn:
 			DrawingSurface.mPinchWidget = null;
 			isMultitouchMode = true;
 			isPenMode = false;
 			isSelectMode = true;
+			isEraseMode = false;
 			break;
 		case R.id.moveBtn:
 			isPenMode = false;
 			isSelectMode = false;
+			isEraseMode = false;
 			isMultitouchMode = true;
+			break;
+		case R.id.eraseBtn:
+			isPenMode = false;
+			isSelectMode = false;
+			isMultitouchMode = false;
+			isEraseMode = true;
 			break;
 		}
 	}
