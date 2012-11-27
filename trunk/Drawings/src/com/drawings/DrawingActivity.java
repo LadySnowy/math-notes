@@ -12,13 +12,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.Paint.Style;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,21 +31,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.drawings.brush.Brush;
 import com.drawings.brush.PenBrush;
 import com.example.android.notepad.NoteEditor;
 import com.example.android.notepad.NotePad;
 import com.example.android.notepad.R;
 
-/**
- * Created by IntelliJ IDEA. User: almondmendoza Date: 07/11/2010 Time: 2:14 AM
- * Link: http://www.tutorialforandroid.com/
- */
 public class DrawingActivity extends Activity implements View.OnTouchListener, OnClickListener {
 	public DrawingSurface drawingSurface;
 	private DrawingPath currentDrawingPath;
@@ -62,7 +53,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 
 	int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
 	private Brush currentBrush;
-	
+
 	private File APP_FILE_PATH = new File(Environment.getExternalStorageDirectory().getPath() + "/savedImages");
 
 	// Global mutable variables
@@ -83,44 +74,42 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 	// A label for the saved state of the activity
 	private static final String ORIGINAL_CONTENT = "origContent";
 
-	int x3 = 0, y3 = 0, x4 = 0, y4 = 0 , xold = 0, yold = 0;
+	int x3 = 0, y3 = 0, x4 = 0, y4 = 0, xold = 0, yold = 0;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
-		// dx = 0;
-		// dy = 0;
-		if (isPenMode) {
+		if (isPenMode) { // all of the drawing is taken care of here
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-	            drawingSurface.isDrawing = true;
-	            
-	            setCurrentPaint();
-	            drawingSurface.previewPath.paint = getPreviewPaint(Color.BLACK);
-	        	
-	            currentDrawingPath = new DrawingPath(path, currentPaint);
-	            currentDrawingPath.paint = currentPaint;
-	            currentDrawingPath.path = new Path();
-	            currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
-	            currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+				drawingSurface.isDrawing = true;
 
-	            path = new Path();
-				currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY()-110);
+				setCurrentPaint();
+				drawingSurface.previewPath.paint = getPreviewPaint(Color.BLACK);
+
+				currentDrawingPath = new DrawingPath(path, currentPaint);
+				currentDrawingPath.paint = currentPaint;
+				currentDrawingPath.path = new Path();
+				currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+
+				path = new Path();
+				currentBrush.mouseDown(path, motionEvent.getX(), motionEvent.getY() - 110);
 				Log.d("jaltade", "Down_X " + motionEvent.getX());
-				Log.d("jaltade", "Down_Y " + (motionEvent.getY()-110));
+				Log.d("jaltade", "Down_Y " + (motionEvent.getY() - 110));
 
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 				drawingSurface.isDrawing = true;
-				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
-				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
-				
-				currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY()-110);
+				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+
+				currentBrush.mouseMove(path, motionEvent.getX(), motionEvent.getY() - 110);
 
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
 				drawingSurface.previewPath.path = new Path();
 
-				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
+				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
 
-				currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY()-110);
+				currentBrush.mouseUp(path, motionEvent.getX(), motionEvent.getY() - 110);
 
 				drawingSurface.addDrawingPath(currentDrawingPath);
 				drawingSurface.isDrawing = true;
@@ -128,89 +117,83 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 				redoBtn.setEnabled(false);
 			}
 			return true;
-		} else if (isMultitouchMode) {
-			if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-				if(isSelectMode)
-				{
+		} else if (isMultitouchMode) { // takes care of moving and selecting
+										// objects
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if (isSelectMode) {
 					Log.d("action down", "isselect");
-				x1 = (int)motionEvent.getX();
-				y1 = (int)motionEvent.getY()-110;
-				xold=x1;
-				yold=y1;
-				}
-				else
-				{
+					x1 = (int) motionEvent.getX();
+					y1 = (int) motionEvent.getY() - 110;
+					xold = x1;
+					yold = y1;
+				} else {
 					Log.d("action down", "!isselect");
-				x3 = (int)motionEvent.getX();
-				y3 = (int)motionEvent.getY();
+					x3 = (int) motionEvent.getX();
+					y3 = (int) motionEvent.getY();
 				}
-			}
-			else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-				if(isSelectMode)
-				{
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+				if (isSelectMode) {
 					Log.d("action up", "isselect");
-				x2 = (int)motionEvent.getX();
-				y2 = (int)motionEvent.getY()-110;
-				}
-				else if(!isSelectMode)
-				{
+					x2 = (int) motionEvent.getX();
+					y2 = (int) motionEvent.getY() - 110;
+				} else if (!isSelectMode) {
 					Log.d("action up", "!isselect");
-					dx= Math.abs(xold-x2);
-					dy = Math.abs(yold-y2);
-					Log.d("dx",""+dx);
-					Log.d("dy", ""+dy);
-					Log.d("x1",""+x1);
-					Log.d("y1", ""+y1);
-					Log.d("x2",""+x2);
-					Log.d("y2", ""+y2);
-					Paint p  = new Paint();
+					dx = Math.abs(xold - x2);
+					dy = Math.abs(yold - y2);
+					Log.d("dx", "" + dx);
+					Log.d("dy", "" + dy);
+					Log.d("x1", "" + x1);
+					Log.d("y1", "" + y1);
+					Log.d("x2", "" + x2);
+					Log.d("y2", "" + y2);
+					Paint p = new Paint();
 					p.setColor(Color.WHITE);
 					p.setDither(true);
-		            p.setStyle(Style.FILL);
-		            p.setStrokeJoin(Paint.Join.ROUND);
-		            p.setStrokeCap(Paint.Cap.ROUND);
-		            p.setStrokeWidth(3);
-		            p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
-					
-					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(),xold,yold,dx,dy);
+					p.setStyle(Style.FILL);
+					p.setStrokeJoin(Paint.Join.ROUND);
+					p.setStrokeCap(Paint.Cap.ROUND);
+					p.setStrokeWidth(3);
+					p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+
+					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(), xold, yold, dx, dy);
 					DrawingSurface.setPinchWidget(currSelect);
-					drawingSurface.addDrawingPath(new DrawingRectangle(p,path,xold,yold,x2,y2));
+					drawingSurface.addDrawingPath(new DrawingRectangle(p, path, xold, yold, x2, y2));
 					drawingSurface.isDrawing = true;
 					isMultitouchMode = true;
 					isPenMode = false;
 					isSelectMode = true;
-					
+
 				}
 			}
 			return drawingSurface.mMultiTouchController.onTouchEvent(motionEvent);
-		} else if(isEraseMode){
-			if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-	            drawingSurface.isDrawing = true;
+		} else if (isEraseMode) { // takes care of the eraser
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				drawingSurface.isDrawing = true;
 
-	            setEraserBrush();
-	            drawingSurface.previewPath.paint = getPreviewPaint(Color.WHITE);
-	            
-	            currentDrawingPath = new DrawingPath(path, currentPaint);
-	            currentDrawingPath.paint = currentPaint;
-	            currentDrawingPath.path = new Path();
-	            currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
-	            currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
-	            
-	        }else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
-	            drawingSurface.isDrawing = true;
-	            currentBrush.mouseMove( currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
-	            currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
+				setEraserBrush();
+				drawingSurface.previewPath.paint = getPreviewPaint(Color.WHITE);
 
-	        }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-	            currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY()-110);
-	            drawingSurface.previewPath.path = new Path();
-	            drawingSurface.addDrawingPath(currentDrawingPath);
+				currentDrawingPath = new DrawingPath(path, currentPaint);
+				currentDrawingPath.paint = currentPaint;
+				currentDrawingPath.path = new Path();
+				currentBrush.mouseDown(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseDown(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
 
-	            currentBrush.mouseUp( currentDrawingPath.path, motionEvent.getX(), motionEvent.getY()-110);
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+				drawingSurface.isDrawing = true;
+				currentBrush.mouseMove(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+				currentBrush.mouseMove(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
 
-	            undoBtn.setEnabled(true);
-	            redoBtn.setEnabled(false);
-	        }
+			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+				currentBrush.mouseUp(drawingSurface.previewPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+				drawingSurface.previewPath.path = new Path();
+				drawingSurface.addDrawingPath(currentDrawingPath);
+
+				currentBrush.mouseUp(currentDrawingPath.path, motionEvent.getX(), motionEvent.getY() - 110);
+
+				undoBtn.setEnabled(true);
+				redoBtn.setEnabled(false);
+			}
 		}
 
 		return true;
@@ -226,40 +209,21 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.editor_options_menu, menu);
 
-		// Only add extra menu items for a saved note
 		if (mState == STATE_EDIT) {
-			// Append to the
-			// menu items for any other activities that can do stuff with it
-			// as well. This does a query on the system for any activities that
-			// implement the ALTERNATIVE_ACTION for our data, adding a menu item
-			// for each one that is found.
 			Intent intent = new Intent(null, mUri);
 			intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
 			menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, new ComponentName(this, NoteEditor.class), null, intent, 0, null);
 		}
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	/**
-	 * This method is called when a menu item is selected. Android passes in the
-	 * selected item. The switch statement in this method calls the appropriate
-	 * method to perform the action the user chose.
-	 * 
-	 * @param item
-	 *            The selected MenuItem
-	 * @return True to indicate that the item was processed, and no further work
-	 *         is necessary. False to proceed to further processing as indicated
-	 *         in the MenuItem object.
-	 */
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle all of the possible menu actions.
 		switch (item.getItemId()) {
 		case R.id.menu_save:
-			// String text = mText.getText().toString();
-			String text = "this is a test";
-			// updateNote(text, null);
+			//String text = mText.getText().toString();
+			String text = "Notes";
+			updateNote(text, null);
 			final Activity currentActivity = this;
 			Handler saveHandler = new Handler() {
 				@Override
@@ -290,48 +254,18 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * Replaces the current note contents with the text and title provided as
-	 * arguments.
-	 * 
-	 * @param text
-	 *            The new note contents to use.
-	 * @param title
-	 *            The new note title to use
-	 */
 	private final void updateNote(String text, String title) {
-
 		// Sets up a map to contain values to be updated in the provider.
 		ContentValues values = new ContentValues();
 		values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, System.currentTimeMillis());
 
-		// If the action is to insert a new note, this creates an initial title
-		// for it.
+		// If the action is to insert a new note, this creates an initial titlefor it.
 		if (mState == STATE_INSERT) {
-
-			/*
-			 * // If no title was provided as an argument, create one from the
-			 * note text. if (title == null) {
-			 * 
-			 * // Get the note's length int length = text.length();
-			 * 
-			 * // Sets the title by getting a substring of the text that is 31
-			 * characters long // or the number of characters in the note plus
-			 * one, whichever is smaller. title = text.substring(0, Math.min(30,
-			 * length));
-			 * 
-			 * // If the resulting length is more than 30 characters, chops off
-			 * any // trailing spaces if (length > 30) { int lastSpace =
-			 * title.lastIndexOf(' '); if (lastSpace > 0) { title =
-			 * title.substring(0, lastSpace); } } }
-			 */
-			// In the values map, sets the value of the title
 			values.put(NotePad.Notes.COLUMN_NAME_TITLE, title);
 		} else if (title != null) {
 			// In the values map, sets the value of the title
 			values.put(NotePad.Notes.COLUMN_NAME_TITLE, title);
 		}
-
 		// This puts the desired notes text into the map.
 		values.put(NotePad.Notes.COLUMN_NAME_NOTE, text);
 
@@ -347,20 +281,14 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		 * use android.content.AsyncQueryHandler or android.os.AsyncTask.
 		 */
 
-		/*
-		 * getContentResolver().update( getIntent().getData(), // The URI for
-		 * the record to update. values, // The map of column names and new
-		 * values to apply to them. null, // No selection criteria are used, so
-		 * no where columns are necessary. null // No where columns are used, so
-		 * no where arguments are necessary. );
-		 */
-
+//		 getContentResolver().update( 
+//				 getIntent().getData(), // The URI for the record to update. 
+//				 values, // The map of column names and new values to apply to them. 
+//				 null, // No selection criteria are used, so no where columns are necessary. 
+//				 null // No where columns are used, so no where arguments are necessary. 
+//		);
 	}
 
-	/**
-	 * This helper method cancels the work done on a note. It deletes the note
-	 * if it was newly created, or reverts to the original text of the note i
-	 */
 	private final void cancelNote() {
 		if (mCursor != null) {
 			if (mState == STATE_EDIT) {
@@ -379,9 +307,6 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		finish();
 	}
 
-	/**
-	 * Take care of deleting a note. Simply deletes the entry.
-	 */
 	private final void deleteNote() {
 		if (mCursor != null) {
 			mCursor.close();
@@ -413,48 +338,24 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		redoBtn.setEnabled(false);
 		undoBtn.setEnabled(false);
 
-		// multi touch stuff
-		// Bitmap itemBitmap =
-		// ((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap();
-		// DrawingSurface.setPinchWidget(itemBitmap);
-
 		// notepad stuff
-		/*
-		 * Creates an Intent to use when the Activity object's result is sent
-		 * back to the caller.
-		 */
 		final Intent intent = getIntent();
-
-		/*
-		 * Sets up for the edit, based on the action specified for the incoming
-		 * Intent.
-		 */
 
 		// Gets the action that triggered the intent filter for this Activity
 		final String action = intent.getAction();
 
 		// For an edit action:
 		if (Intent.ACTION_EDIT.equals(action)) {
-
-			// Sets the Activity state to EDIT, and gets the URI for the data to
-			// be edited.
+			// Sets the Activity state to EDIT, and gets the URI for the data to be edited.
 			mState = STATE_EDIT;
 			mUri = intent.getData();
 
 			// For an insert or paste action:
 		} else if (Intent.ACTION_INSERT.equals(action) || Intent.ACTION_PASTE.equals(action)) {
-
-			// Sets the Activity state to INSERT, gets the general note URI, and
-			// inserts an
-			// empty record in the provider
+			// Sets the Activity state to INSERT, gets the general note URI, and inserts an empty record in the provider
 			mState = STATE_INSERT;
 			mUri = getContentResolver().insert(intent.getData(), null);
 
-			/*
-			 * If the attempt to insert the new note fails, shuts down this
-			 * Activity. The originating Activity receives back RESULT_CANCELED
-			 * if it requested a result. Logs that the insert failed.
-			 */
 			if (mUri == null) {
 
 				// Writes the log identifier, a message, and the URI that
@@ -466,12 +367,9 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 				return;
 			}
 
-			// Since the new entry was created, this sets the result to be
-			// returned
-			// set the result to be returned.
+			// Since the new entry was created, this sets the result to be returned set the result to be returned.
 			setResult(RESULT_OK, (new Intent()).setAction(mUri.toString()));
 			// If the action was other than EDIT or INSERT:
-
 		}
 
 		// For a paste, initializes the data from clipboard.
@@ -486,17 +384,12 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		// Gets a handle to the EditText in the the layout.
 		mText = (EditText) findViewById(R.id.note);
 
-		/*
-		 * If this Activity had stopped previously, its state was written the
-		 * ORIGINAL_CONTENT location in the saved Instance state. This gets the
-		 * state.
-		 */
 		if (savedInstanceState != null) {
 			mOriginalContent = savedInstanceState.getString(ORIGINAL_CONTENT);
 		}
-
 	}
-	
+
+	//sets up the brush for drawing the preview when drawing
 	private Paint getPreviewPaint(int color) {
 		final Paint previewPaint = new Paint();
 		previewPaint.setColor(color);
@@ -507,6 +400,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		return previewPaint;
 	}
 
+	//sets up the regular drawing brush
 	private void setCurrentPaint() {
 		currentPaint = new Paint();
 		currentPaint.setDither(true);
@@ -516,7 +410,8 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		currentPaint.setStrokeCap(Paint.Cap.ROUND);
 		currentPaint.setStrokeWidth(3);
 	}
-	
+
+	//sets up the eraser brush
 	private void setEraserBrush() {
 		currentPaint = new Paint();
 		currentPaint.setDither(true);
@@ -527,6 +422,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		currentPaint.setStrokeWidth(3);
 	}
 
+	//handles all the onclick button events
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.circleBtn:
@@ -588,13 +484,11 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			}
 			redoBtn.setEnabled(true);
 			break;
-
 		case R.id.redoBtn:
 			drawingSurface.redo();
 			if (drawingSurface.hasMoreRedo() == false) {
 				redoBtn.setEnabled(false);
 			}
-
 			undoBtn.setEnabled(true);
 			break;
 		case R.id.pathBtn:
@@ -625,6 +519,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		}
 	}
 
+	//for saving the bitmaps
 	private class ExportBitmapToFile extends AsyncTask<Intent, Void, Boolean> {
 		private Handler mHandler;
 		private Bitmap nBitmap;
@@ -641,7 +536,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 					APP_FILE_PATH.mkdirs();
 				}
 
-				final FileOutputStream out = new FileOutputStream(new File(APP_FILE_PATH + "/myAwesomeDrawing.png"));
+				final FileOutputStream out = new FileOutputStream(new File(APP_FILE_PATH + "/MathNotes.png"));
 				nBitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 				out.flush();
 				out.close();
@@ -649,7 +544,6 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// mHandler.post(completeRunnable);
 			return false;
 		}
 
