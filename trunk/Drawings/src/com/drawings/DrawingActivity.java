@@ -323,6 +323,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		setCurrentPaint();
 		currentBrush = new PenBrush();
 
+		drawingSurface.mPinchWidget = null;
 		drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
 		drawingSurface.setOnTouchListener(this);
 		drawingSurface.previewPath = new DrawingPath(path, currentPaint);

@@ -12,17 +12,15 @@ public class DrawingCurve extends DrawingPath implements ICanvasCommand {
 	}
 
 	public Paint paint;
+
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		final Path path = new Path();
-    	path.moveTo(50,50);
-    	path.cubicTo(300, 50, 100, 400, 400, 400);
-    	canvas.drawPath(path, paint);
+		path.moveTo(50, 50);
+		path.cubicTo(300, 50, 100, 400, 400, 400);
+		canvas.drawPath(path, paint);
 	}
 
 	public void undo() {
 		// TODO Auto-generated method stub
-
 	}
-
 }
