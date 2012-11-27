@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
@@ -51,6 +52,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 	private Boolean isMultitouchMode = false;
 	private Boolean isSelectMode = false;
 	private Boolean isEraseMode = false;
+	private Boolean drawBoundary = false;
 
 	int x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0;
 	private Brush currentBrush;
@@ -135,9 +137,24 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			} else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 				if (isSelectMode) {
 					Log.d("action up", "isselect");
-					x2 = (int) motionEvent.getX();
-					y2 = (int) motionEvent.getY() - 110;
-				} else if (!isSelectMode) {
+				x2 = (int)motionEvent.getX();
+				y2 = (int)motionEvent.getY()-110;
+				if(drawBoundary)
+				{
+				Paint p  = new Paint();
+				p.setColor(Color.GRAY);
+				p.setDither(true);
+	            p.setStyle(Style.STROKE);
+	            p.setPathEffect(new DashPathEffect(new float[] {10,20}, 0));
+	            p.setStrokeJoin(Paint.Join.ROUND);
+	            p.setStrokeCap(Paint.Cap.ROUND);
+	            p.setStrokeWidth(3);
+				drawingSurface.addDrawingPath(new DrawingRectangle(p,path,xold,yold,x2,y2));
+				drawingSurface.isDrawing = true;
+				}
+				}
+				else if(!isSelectMode)
+				{
 					Log.d("action up", "!isselect");
 					dx = Math.abs(xold - x2);
 					dy = Math.abs(yold - y2);
@@ -150,15 +167,15 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 					Paint p = new Paint();
 					p.setColor(Color.WHITE);
 					p.setDither(true);
-					p.setStyle(Style.FILL);
-					p.setStrokeJoin(Paint.Join.ROUND);
-					p.setStrokeCap(Paint.Cap.ROUND);
-					p.setStrokeWidth(3);
-					p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
-
-					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(), xold, yold, dx, dy);
+		            p.setStyle(Style.FILL);
+		            p.setStrokeJoin(Paint.Join.ROUND);
+		            p.setStrokeCap(Paint.Cap.ROUND);
+		            p.setStrokeWidth(3);
+		            p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+					
+					Bitmap currSelect = Bitmap.createBitmap(drawingSurface.getBitmap(),xold+5,yold+5,dx-7,dy-7);
 					DrawingSurface.setPinchWidget(currSelect);
-					drawingSurface.addDrawingPath(new DrawingRectangle(p, path, xold, yold, x2, y2));
+					drawingSurface.addDrawingPath(new DrawingRectangle(p,path,xold-5,yold-5,x2+5,y2+5));
 					drawingSurface.isDrawing = true;
 					isMultitouchMode = true;
 					isPenMode = false;
@@ -505,19 +522,14 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 			isMultitouchMode = true;
 			isPenMode = false;
 			isSelectMode = true;
-			isEraseMode = false;
+			drawBoundary = true;
 			break;
 		case R.id.moveBtn:
 			isPenMode = false;
 			isSelectMode = false;
 			isEraseMode = false;
 			isMultitouchMode = true;
-			break;
-		case R.id.eraseBtn:
-			isPenMode = false;
-			isSelectMode = false;
-			isMultitouchMode = false;
-			isEraseMode = true;
+			drawBoundary = false;
 			break;
 		}
 	}
