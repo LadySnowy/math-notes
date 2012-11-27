@@ -54,6 +54,14 @@
             android:onClick="onClick"
             android:scaleType="fitCenter"
             android:src="@drawable/move" />
+        
+        <ImageButton
+            android:id="@+id/eraseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/erase" />
 
         <ImageButton
             android:id="@+id/circleBtn"
