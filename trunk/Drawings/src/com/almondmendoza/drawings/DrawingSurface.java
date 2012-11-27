@@ -103,7 +103,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                     try{
                         canvas = mSurfaceHolder.lockCanvas(null);
                         if(mBitmap == null){
-                            mBitmap =  Bitmap.createBitmap (1000, 1110, Bitmap.Config.ARGB_8888);
+                            mBitmap =  Bitmap.createBitmap (1280, 768, Bitmap.Config.ARGB_8888);
                         }
                         final Canvas c = new Canvas (mBitmap);
 
@@ -114,8 +114,6 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                         commandManager.executeAll(c, previewDoneHandler);
                         previewPath.draw(c);
                         
-                        Log.d("hi", "maath");
-
                         canvas.drawBitmap (mBitmap, 0,  0,null);
                         
                         mCanvas = canvas;
