@@ -1,5 +1,6 @@
 package com.drawings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -56,6 +57,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 		super(context, attrs, defStyle);
 	}
 
+	@SuppressLint("HandlerLeak")
 	private Handler previewDoneHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {

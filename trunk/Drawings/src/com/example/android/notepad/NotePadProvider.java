@@ -17,8 +17,6 @@
 package com.example.android.notepad;
 
 import com.example.android.notepad.NotePad;
-import com.example.android.notepad.R;
-
 import android.content.ClipDescription;
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -701,11 +699,9 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
                  * note ID.
                  */
                 finalWhere =
-                        NotePad.Notes._ID +                              // The ID column name
-                        " = " +                                          // test for equality
-                        uri.getPathSegments().                           // the incoming note ID
-                            get(NotePad.Notes.NOTE_ID_PATH_POSITION)
-                ;
+                        NotePad.Notes._ID +			// The ID column name
+                        " = " +						// test for equality
+                        noteId;						// the incoming note ID
 
                 // If there were additional selection criteria, append them to the final WHERE
                 // clause

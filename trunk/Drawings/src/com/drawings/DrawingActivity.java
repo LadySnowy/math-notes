@@ -3,6 +3,7 @@ package com.drawings;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -217,6 +218,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@SuppressLint("HandlerLeak")
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle all of the possible menu actions.
 		switch (item.getItemId()) {
@@ -323,7 +325,7 @@ public class DrawingActivity extends Activity implements View.OnTouchListener, O
 		setCurrentPaint();
 		currentBrush = new PenBrush();
 
-		drawingSurface.mPinchWidget = null;
+		DrawingSurface.mPinchWidget = null;
 		drawingSurface = (DrawingSurface) findViewById(R.id.drawingSurface);
 		drawingSurface.setOnTouchListener(this);
 		drawingSurface.previewPath = new DrawingPath(path, currentPaint);

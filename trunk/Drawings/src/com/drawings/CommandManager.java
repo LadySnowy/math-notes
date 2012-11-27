@@ -42,7 +42,7 @@ public class CommandManager {
 	public void executeAll(Canvas canvas, Handler doneHandler) {
 		if (currentStack != null) {
 			synchronized (currentStack) {
-				final Iterator i = currentStack.iterator();
+				final Iterator<ICanvasCommand> i = currentStack.iterator();
 
 				while (i.hasNext()) {
 					final DrawingPath drawingPath = (DrawingPath) i.next();
@@ -55,7 +55,7 @@ public class CommandManager {
 	public void executeAll(Canvas canvas) {
 		if (currentStack != null) {
 			synchronized (currentStack) {
-				final Iterator i = currentStack.iterator();
+				final Iterator<ICanvasCommand> i = currentStack.iterator();
 				Log.d("aaa", currentStack.toArray().length + "");
 				while (i.hasNext()) {
 					final ICanvasCommand drawingPath = (ICanvasCommand) i.next();
