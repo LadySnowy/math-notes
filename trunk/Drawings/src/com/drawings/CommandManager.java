@@ -1,4 +1,4 @@
-package com.almondmendoza.drawings;
+package com.drawings;
 
 import android.graphics.Canvas;
 import android.os.Handler;

@@ -17,7 +17,8 @@
 package com.example.android.notepad;
 
 
-import com.almondmendoza.drawings.DrawingActivity;
+import com.drawings.DrawingActivity;
+import com.example.android.notepad.R;
 
 
 

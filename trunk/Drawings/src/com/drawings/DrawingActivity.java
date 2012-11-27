@@ -1,4 +1,4 @@
-package com.almondmendoza.drawings;
+package com.drawings;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,11 +38,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.drawings.brush.Brush;
+import com.drawings.brush.PenBrush;
 import com.example.android.notepad.NoteEditor;
 import com.example.android.notepad.NotePad;
 import com.example.android.notepad.R;
-import com.almondmendoza.drawings.brush.Brush;
-import com.almondmendoza.drawings.brush.PenBrush;
 
 /**
  * Created by IntelliJ IDEA. User: almondmendoza Date: 07/11/2010 Time: 2:14 AM

@@ -1,4 +1,4 @@
-package com.twodwarfs.multitouchcontroller;
+package com.multitouchcontroller;
 
 /**
  * MultiTouchController.java

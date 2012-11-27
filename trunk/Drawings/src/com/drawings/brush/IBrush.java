@@ -1,4 +1,4 @@
-package com.almondmendoza.drawings.brush;
+package com.drawings.brush;
 
 import android.graphics.Path;
 

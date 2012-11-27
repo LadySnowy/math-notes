@@ -1,4 +1,4 @@
-package com.almondmendoza.drawings;
+package com.drawings;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,11 +19,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.twodwarfs.multitouchcontroller.MultiTouchController;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.MultiTouchObjectCanvas;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.PointInfo;
-import com.twodwarfs.multitouchcontroller.MultiTouchController.PositionAndScale;
-import com.twodwarfs.multitouchcontroller.PinchWidget;
+import com.multitouchcontroller.MultiTouchController;
+import com.multitouchcontroller.PinchWidget;
+import com.multitouchcontroller.MultiTouchController.MultiTouchObjectCanvas;
+import com.multitouchcontroller.MultiTouchController.PointInfo;
+import com.multitouchcontroller.MultiTouchController.PositionAndScale;
 
 /**
  * Created by IntelliJ IDEA.

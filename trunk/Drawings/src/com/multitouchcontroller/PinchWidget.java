@@ -1,4 +1,4 @@
-package com.twodwarfs.multitouchcontroller;
+package com.multitouchcontroller;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 
-import com.twodwarfs.multitouchcontroller.MultiTouchController.PositionAndScale;
+import com.multitouchcontroller.MultiTouchController.PositionAndScale;
 
 /**
  * PinchWidget for the MultiTouch controller

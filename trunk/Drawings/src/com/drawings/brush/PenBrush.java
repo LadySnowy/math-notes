@@ -1,4 +1,4 @@
-package com.almondmendoza.drawings.brush;
+package com.drawings.brush;
 
 import android.graphics.Path;
 
@@ -6,19 +6,23 @@ import android.graphics.Path;
  * Created by IntelliJ IDEA.
  * User: almondmendoza
  * Date: 01/12/2010
- * Time: 10:54 PM
+ * Time: 10:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Brush implements  IBrush {
+public class PenBrush extends Brush{
+    @Override
     public void mouseDown(Path path, float x, float y) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        path.moveTo( x, y );
+        path.lineTo(x, y);
     }
 
+    @Override
     public void mouseMove(Path path, float x, float y) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        path.lineTo( x, y );
     }
 
+    @Override
     public void mouseUp(Path path, float x, float y) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        path.lineTo( x, y );
     }
 }

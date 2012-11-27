@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.almondmendoza.drawings.DrawingSurface
+    <com.drawings.DrawingSurface
         android:id="@+id/drawingSurface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

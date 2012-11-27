@@ -40,7 +40,7 @@
         </provider>
 
         <activity
-            android:name="com.almondmendoza.drawings.DrawingActivity"
+            android:name="com.drawings.DrawingActivity"
             android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
             </intent-filter>
