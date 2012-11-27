@@ -12,10 +12,6 @@ package com.multitouchcontroller;
 
 import java.lang.reflect.Method;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -230,7 +226,7 @@ public class MultiTouchController<T> {
 					if (DEBUG)
 						Log.i("MultiTouch", "Got here 4");
 					int numPointers = Math.min(pointerCount, MAX_TOUCH_POINTS);
-					if (DEBUG && pointerCount > MAX_TOUCH_POINTS)
+					if (DEBUG)
 						Log.i("MultiTouch", "Got more pointers than MAX_TOUCH_POINTS");
 					for (int ptrIdx = 0; ptrIdx < numPointers; ptrIdx++) {
 						int ptrId = (Integer) m_getPointerId.invoke(event, ptrIdx);
